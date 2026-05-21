@@ -436,106 +436,122 @@ img, svg {
   transform: translateY(-4px);
 }
 
-/* Slatted wood wall simulation */
+/* Slatted wood wall simulation — VERTICAL slats matching real product photos */
 .hero__wall-slats {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;   /* vertical slats */
   pointer-events: none;
   z-index: 0;
 }
 
 .hero__wall-slats span {
   flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.025);
+  height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.022);
   background: linear-gradient(
-    180deg,
-    rgba(28, 20, 12, 0.6) 0%,
-    rgba(20, 14, 8, 0.6) 100%
+    90deg,
+    rgba(26, 18, 10, 0.55) 0%,
+    rgba(20, 14, 8, 0.55) 100%
   );
 }
 
-/* Hook assembly: plate + hooks */
+/* Product assembly: central plate + two angled bracket arms */
 .hero__assembly {
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-end;   /* arms share a common baseline with the plate */
+  justify-content: center;
+  gap: 0;
+  width: 220px;
+  height: 160px;
 }
 
-/* Wall plate body */
+/* Portrait base plate — houses the Arduino + LED diffuser */
 .hero__plate {
   position: relative;
-  width: 200px;
-  height: 64px;
+  width: 64px;
+  height: 88px;
   background: #1c1c1c;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.09);
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Subtle tinted shadow per taste skill */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+  flex-shrink: 0;
+  z-index: 2;
 }
 
-/* LED strip channel in the plate center */
-.hero__led-strip {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  height: 3px;
+/* Frosted LED diffuser rectangle inside the plate (the clear piece in photos) */
+.hero__led-rect {
+  width: 22px;
+  height: 48px;
+  border-radius: 4px;
   background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0.9) 20%,
-    rgba(255, 255, 255, 0.9) 80%,
-    rgba(255, 255, 255, 0.15)
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.75) 100%
   );
-  border-radius: 2px;
+  position: relative;
 }
 
 .hero__led-glow {
   position: absolute;
-  inset: -12px -8px;
+  inset: -18px -22px;
   background: radial-gradient(
     ellipse at 50% 50%,
-    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.30) 0%,
     transparent 65%
   );
   animation: led-pulse 2.4s ease-in-out infinite;
 }
 
-/* Three hooks below the plate */
-.hero__hooks {
-  display: flex;
-  gap: 28px;
-  margin-top: 4px;
+/* Angled bracket arms — the two black wings with gold trim edges */
+.hero__arm {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 80px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
 }
 
-.hero__hook {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hero__hook-arm {
-  width: 7px;
-  height: 26px;
-  background: linear-gradient(180deg, #1c1c1c, #181818);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-top: none;
-  border-radius: 0 0 3px 3px;
-}
-
-.hero__hook-tip {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
+/* Gold trim strip along the outer edge of each arm */
+.hero__arm-trim {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 2px;
   background: var(--gold);
-  box-shadow: 0 0 10px rgba(201, 168, 76, 0.35);
-  margin-top: 2px;
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.30);
+}
+
+/* Left arm: angled up-left from the plate */
+.hero__arm--left {
+  left: 16px;
+  transform-origin: bottom center;
+  transform: rotate(-32deg);
+}
+
+.hero__arm--left .hero__arm-trim {
+  left: 0;  /* gold on outer (left) edge */
+}
+
+/* Right arm: angled up-right from the plate */
+.hero__arm--right {
+  right: 16px;
+  transform-origin: bottom center;
+  transform: rotate(32deg);
+}
+
+.hero__arm--right .hero__arm-trim {
+  right: 0;  /* gold on outer (right) edge */
 }
 
 /* Card label at the bottom */
