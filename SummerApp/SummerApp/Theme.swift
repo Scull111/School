@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 enum Theme {
     static let sand = Color(red: 0.98, green: 0.97, blue: 0.94)
@@ -70,6 +71,26 @@ struct PhotoPlaceholder: View {
                     .kerning(0.8)
                     .foregroundStyle(Theme.muted)
             }
+    }
+}
+
+struct PhotoThumb: View {
+    let data: Data
+
+    var body: some View {
+        if let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+        } else {
+            Rectangle()
+                .fill(Theme.placeholder)
+                .overlay {
+                    Image(systemName: "photo")
+                        .font(.system(size: 18))
+                        .foregroundStyle(Theme.muted)
+                }
+        }
     }
 }
 

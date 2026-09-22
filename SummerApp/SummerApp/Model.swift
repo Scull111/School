@@ -54,7 +54,16 @@ struct Activity: Identifiable, Hashable {
     var note: String
     var duration: String = ""
     var weather: String = ""
-    var company: String = "[WITH WHOM]"
+    var company: String = ""
+    var photos: [Data] = []
+
+    static func == (lhs: Activity, rhs: Activity) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 struct Trip: Identifiable, Hashable {
@@ -148,6 +157,14 @@ final class SummerStore {
         tripActivities.filter { $0.rating == 5 }
     }
 
+    var tripPhotos: [Data] {
+        tripActivities.flatMap(\.photos)
+    }
+
+    func current(_ activity: Activity) -> Activity? {
+        activities.first { $0.id == activity.id }
+    }
+
     func activities(in region: Region?) -> [Activity] {
         guard let region else { return sorted }
         return sorted.filter { $0.region == region }
@@ -168,5 +185,14 @@ final class SummerStore {
 
     func add(_ activity: Activity) {
         activities.append(activity)
+    }
+
+    func update(_ activity: Activity) {
+        guard let index = activities.firstIndex(where: { $0.id == activity.id }) else { return }
+        activities[index] = activity
+    }
+
+    func delete(_ activity: Activity) {
+        activities.removeAll { $0.id == activity.id }
     }
 }

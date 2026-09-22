@@ -13,6 +13,20 @@ change the bundle ID `com.example.summer26` to something of your own.
 
 Needs iOS 17 and Xcode 15 or newer.
 
+## What it does
+
+- **Browse** the summer from the home screen, the timeline, or the trip page.
+- **Add** an entry from the New tab.
+- **Edit** any entry: open it and tap *Edit*, or swipe a timeline row to the right.
+- **Delete** an entry: swipe a timeline row to the left, or use *Delete entry* at the
+  bottom of the entry. Both ask before deleting.
+- **Photos** come from your library through the system picker. Pick up to six at a time per
+  entry, remove one with the ✗ on its thumbnail. An entry with photos shows them as a swipeable
+  gallery, uses the first one as its row thumbnail, and fills the photo row on the trip page.
+
+Entries live in memory only, so anything added, edited or deleted is gone on relaunch and the
+sample summer comes back. Saving to disk would be the next step.
+
 ## Structure
 
 | File | Contents |
@@ -23,13 +37,13 @@ Needs iOS 17 and Xcode 15 or newer.
 | `Theme.swift` | Colours, type and reusable pieces |
 | `ActivityRow.swift` | One row in the lists |
 | `SummerView.swift` | Home screen with the trip card, numbers and recent entries |
-| `TimelineView.swift` | Every entry by month, filterable by Crete / Home |
-| `TripView.swift` | The trip with highlights and photo slots |
-| `ActivityDetailView.swift` | A single entry |
-| `NewEntryView.swift` | Add a new entry |
+| `TimelineView.swift` | Every entry by month, filterable, swipe to edit or delete |
+| `TripView.swift` | The trip with highlights and photos |
+| `ActivityDetailView.swift` | A single entry, with edit and delete |
+| `ActivityEditor.swift` | The form for adding and editing, including the photo picker |
 | `ProfileView.swift` | Summer in numbers |
 
 ## Placeholders
 
 Anywhere a real detail is missing there is a `[YOUR PLACE]`, `[WITH WHOM]` or `[YOUR NAME]`
-in `SummerData.swift`, ready to be replaced. Photos are drawn as placeholder blocks.
+in `SummerData.swift`, ready to be replaced.

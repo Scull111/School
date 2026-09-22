@@ -25,7 +25,7 @@ struct RootView: View {
                 .tag(Tab.timeline)
                 .tabItem { Label("Timeline", systemImage: "list.bullet") }
 
-            NewEntryView { selection = .timeline }
+            ActivityEditor { selection = .summer }
                 .tag(Tab.new)
                 .tabItem { Label("New", systemImage: "plus.circle") }
 

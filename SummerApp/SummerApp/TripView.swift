@@ -47,10 +47,18 @@ struct TripView: View {
     }
 
     private var photos: some View {
-        HStack(spacing: 10) {
-            PhotoPlaceholder(height: 96)
-            PhotoPlaceholder(height: 96)
-            PhotoPlaceholder(height: 96)
+        let shots = Array(store.tripPhotos.prefix(3))
+        return HStack(spacing: 10) {
+            ForEach(0..<3, id: \.self) { index in
+                if index < shots.count {
+                    PhotoThumb(data: shots[index])
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 96)
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                } else {
+                    PhotoPlaceholder(height: 96)
+                }
+            }
         }
     }
 

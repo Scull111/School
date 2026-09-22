@@ -3,6 +3,7 @@ import SwiftUI
 struct ActivityRow: View {
     let activity: Activity
     var showsDay = false
+    var showsChevron = true
 
     var body: some View {
         HStack(spacing: 12) {
@@ -16,6 +17,10 @@ struct ActivityRow: View {
                         .frame(width: 8, height: 8)
                 }
                 .frame(width: 34)
+            } else if let photo = activity.photos.first {
+                PhotoThumb(data: photo)
+                    .frame(width: 42, height: 42)
+                    .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
             } else {
                 Image(systemName: activity.category.symbol)
                     .font(.system(size: 18))
@@ -35,9 +40,17 @@ struct ActivityRow: View {
 
             Spacer(minLength: 8)
 
-            Image(systemName: "chevron.right")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(Theme.muted.opacity(0.6))
+            if !activity.photos.isEmpty && showsDay {
+                Image(systemName: "photo")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Theme.muted.opacity(0.7))
+            }
+
+            if showsChevron {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Theme.muted.opacity(0.6))
+            }
         }
         .padding(10)
         .frame(minHeight: 56)
