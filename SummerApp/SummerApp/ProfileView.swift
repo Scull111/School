@@ -8,23 +8,23 @@ struct ProfileView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Sommer in Zahlen")
+                        Text("Summer in numbers")
                             .eyebrow()
                             .foregroundStyle(Theme.clay)
-                        Text("[DEIN NAME]")
+                        Text("[YOUR NAME]")
                             .font(.display(34))
                             .foregroundStyle(Theme.ink)
                     }
 
                     HStack(spacing: 10) {
-                        StatTile(value: "\(store.activities.count)", label: "Aktivitäten")
-                        StatTile(value: "\(store.trip.dayCount)", label: "Tage weg")
-                        StatTile(value: "\(store.placeCount)", label: "Orte")
+                        StatTile(value: "\(store.activities.count)", label: "Activities")
+                        StatTile(value: "\(store.trip.dayCount)", label: "Days away")
+                        StatTile(value: "\(store.placeCount)", label: "Places")
                     }
 
                     if let favourite = store.favourite {
                         VStack(alignment: .leading, spacing: 10) {
-                            SectionTitle(text: "Bester Moment")
+                            SectionTitle(text: "Best moment")
                             NavigationLink(value: favourite) {
                                 ActivityRow(activity: favourite)
                             }
@@ -33,7 +33,7 @@ struct ProfileView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 10) {
-                        SectionTitle(text: "Nach Kategorie")
+                        SectionTitle(text: "By category")
                         ForEach(Category.allCases) { category in
                             let count = store.activities.filter { $0.category == category }.count
                             if count > 0 {

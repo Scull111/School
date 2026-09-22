@@ -22,13 +22,13 @@ struct SummerView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Mein Sommer")
+            Text("My summer")
                 .eyebrow()
                 .foregroundStyle(Theme.clay)
-            Text("Sommer 26")
+            Text("Summer 26")
                 .font(.display(42))
                 .foregroundStyle(Theme.ink)
-            Text("Kreta · Ierapetra · zuhause")
+            Text("Crete · Ierapetra · home")
                 .font(.system(size: 14))
                 .foregroundStyle(Theme.muted)
         }
@@ -38,7 +38,7 @@ struct SummerView: View {
         NavigationLink(value: store.trip) {
             VStack(alignment: .leading, spacing: 14) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Die Reise")
+                    Text("The trip")
                         .eyebrow()
                         .foregroundStyle(Color.white.opacity(0.7))
                     Text(store.trip.name)
@@ -49,7 +49,7 @@ struct SummerView: View {
                         .foregroundStyle(Color.white.opacity(0.8))
                 }
 
-                Label("Reise ansehen", systemImage: "arrow.right")
+                Label("See the trip", systemImage: "arrow.right")
                     .labelStyle(.trailingIcon)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.white)
@@ -77,15 +77,15 @@ struct SummerView: View {
 
     private var stats: some View {
         HStack(spacing: 10) {
-            StatTile(value: "\(store.activities.count)", label: "Aktivitäten")
-            StatTile(value: "\(store.trip.dayCount)", label: "Tage Kreta")
-            StatTile(value: "\(store.placeCount)", label: "Orte")
+            StatTile(value: "\(store.activities.count)", label: "Activities")
+            StatTile(value: "\(store.trip.dayCount)", label: "Days on Crete")
+            StatTile(value: "\(store.placeCount)", label: "Places")
         }
     }
 
     private var recent: some View {
         VStack(alignment: .leading, spacing: 10) {
-            SectionTitle(text: "Zuletzt gemacht")
+            SectionTitle(text: "Recently")
             ForEach(store.recent) { activity in
                 NavigationLink(value: activity) {
                     ActivityRow(activity: activity)
@@ -108,6 +108,7 @@ struct StatTile: View {
             Text(label)
                 .font(.system(size: 11))
                 .foregroundStyle(Theme.muted)
+                .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)

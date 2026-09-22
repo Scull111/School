@@ -65,7 +65,7 @@ struct PhotoPlaceholder: View {
                     .strokeBorder(Theme.line, style: StrokeStyle(lineWidth: 1, dash: [6, 5]))
             }
             .overlay {
-                Text("[DEIN FOTO]")
+                Text("[YOUR PHOTO]")
                     .font(.system(size: 11, weight: .semibold))
                     .kerning(0.8)
                     .foregroundStyle(Theme.muted)
@@ -86,6 +86,6 @@ struct RatingStars: View {
             }
         }
         .accessibilityElement()
-        .accessibilityLabel("Bewertung \(rating) von 5")
+        .accessibilityLabel("Rated \(rating) out of 5")
     }
 }

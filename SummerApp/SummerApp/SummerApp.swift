@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct SommerApp: App {
+struct SummerApp: App {
     @State private var store = SummerStore.sample
 
     var body: some Scene {
@@ -13,30 +13,30 @@ struct SommerApp: App {
 }
 
 struct RootView: View {
-    @State private var selection = Tab.sommer
+    @State private var selection = Tab.summer
 
     var body: some View {
         TabView(selection: $selection) {
             SummerView()
-                .tag(Tab.sommer)
-                .tabItem { Label("Sommer", systemImage: "sun.max") }
+                .tag(Tab.summer)
+                .tabItem { Label("Summer", systemImage: "sun.max") }
 
             TimelineView()
                 .tag(Tab.timeline)
                 .tabItem { Label("Timeline", systemImage: "list.bullet") }
 
             NewEntryView { selection = .timeline }
-                .tag(Tab.neu)
-                .tabItem { Label("Neu", systemImage: "plus.circle") }
+                .tag(Tab.new)
+                .tabItem { Label("New", systemImage: "plus.circle") }
 
             ProfileView()
-                .tag(Tab.ich)
-                .tabItem { Label("Ich", systemImage: "person") }
+                .tag(Tab.me)
+                .tabItem { Label("Me", systemImage: "person") }
         }
         .tint(Theme.clay)
     }
 }
 
 enum Tab {
-    case sommer, timeline, neu, ich
+    case summer, timeline, new, me
 }

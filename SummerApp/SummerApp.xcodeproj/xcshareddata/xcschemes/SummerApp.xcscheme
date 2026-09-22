@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1A00000000000000000000A5"
-               BuildableName = "SommerApp.app"
-               BlueprintName = "SommerApp"
-               ReferencedContainer = "container:SommerApp.xcodeproj">
+               BuildableName = "SummerApp.app"
+               BlueprintName = "SummerApp"
+               ReferencedContainer = "container:SummerApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A00000000000000000000A5"
-            BuildableName = "SommerApp.app"
-            BlueprintName = "SommerApp"
-            ReferencedContainer = "container:SommerApp.xcodeproj">
+            BuildableName = "SummerApp.app"
+            BlueprintName = "SummerApp"
+            ReferencedContainer = "container:SummerApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A00000000000000000000A5"
-            BuildableName = "SommerApp.app"
-            BlueprintName = "SommerApp"
-            ReferencedContainer = "container:SommerApp.xcodeproj">
+            BuildableName = "SummerApp.app"
+            BlueprintName = "SummerApp"
+            ReferencedContainer = "container:SummerApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

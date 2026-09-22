@@ -1,44 +1,44 @@
 import SwiftUI
 
 enum Region: String, CaseIterable, Identifiable, Hashable {
-    case kreta = "Kreta"
-    case zuhause = "Zuhause"
+    case crete = "Crete"
+    case home = "Home"
 
     var id: String { rawValue }
 }
 
 enum Category: String, CaseIterable, Identifiable, Hashable {
-    case wassersport = "Wassersport"
+    case watersports = "Watersports"
     case sport = "Sport"
-    case ausflug = "Ausflug"
-    case natur = "Natur"
-    case essen = "Essen"
-    case reise = "Reise"
-    case zuhause = "Zuhause"
+    case dayTrip = "Day trip"
+    case nature = "Nature"
+    case food = "Food"
+    case travel = "Travel"
+    case home = "Home"
 
     var id: String { rawValue }
 
     var symbol: String {
         switch self {
-        case .wassersport: "water.waves"
+        case .watersports: "water.waves"
         case .sport: "figure.run"
-        case .ausflug: "sailboat"
-        case .natur: "leaf"
-        case .essen: "fork.knife"
-        case .reise: "airplane"
-        case .zuhause: "house"
+        case .dayTrip: "sailboat"
+        case .nature: "leaf"
+        case .food: "fork.knife"
+        case .travel: "airplane"
+        case .home: "house"
         }
     }
 
     var tint: Color {
         switch self {
-        case .wassersport: Theme.aegean
+        case .watersports: Theme.aegean
         case .sport: Color(red: 0.42, green: 0.42, blue: 0.18)
-        case .ausflug: Theme.deepSea
-        case .natur: Color(red: 0.25, green: 0.42, blue: 0.23)
-        case .essen: Theme.clay
-        case .reise: Color(red: 0.55, green: 0.23, blue: 0.35)
-        case .zuhause: Theme.muted
+        case .dayTrip: Theme.deepSea
+        case .nature: Color(red: 0.25, green: 0.42, blue: 0.23)
+        case .food: Theme.clay
+        case .travel: Color(red: 0.55, green: 0.23, blue: 0.35)
+        case .home: Theme.muted
         }
     }
 }
@@ -54,7 +54,7 @@ struct Activity: Identifiable, Hashable {
     var note: String
     var duration: String = ""
     var weather: String = ""
-    var company: String = "[MIT WEM]"
+    var company: String = "[WITH WHOM]"
 }
 
 struct Trip: Identifiable, Hashable {
@@ -83,34 +83,34 @@ struct MonthGroup: Identifiable {
 }
 
 enum TimelineFilter: String, CaseIterable, Identifiable {
-    case alle = "Alle"
-    case kreta = "Kreta"
-    case zuhause = "Zuhause"
+    case all = "All"
+    case crete = "Crete"
+    case home = "Home"
 
     var id: String { rawValue }
 
     var region: Region? {
         switch self {
-        case .alle: nil
-        case .kreta: .kreta
-        case .zuhause: .zuhause
+        case .all: nil
+        case .crete: .crete
+        case .home: .home
         }
     }
 }
 
 enum DateText {
-    static let german = Locale(identifier: "de_DE")
+    static let english = Locale(identifier: "en_US")
 
     static func dayMonth(_ date: Date) -> String {
-        date.formatted(.dateTime.day().month(.wide).locale(german))
+        date.formatted(.dateTime.month(.wide).day().locale(english))
     }
 
     static func day(_ date: Date) -> String {
-        date.formatted(.dateTime.day(.twoDigits).locale(german))
+        date.formatted(.dateTime.day(.twoDigits).locale(english))
     }
 
     static func month(_ date: Date) -> String {
-        date.formatted(.dateTime.month(.wide).locale(german))
+        date.formatted(.dateTime.month(.wide).locale(english))
     }
 }
 
@@ -141,7 +141,7 @@ final class SummerStore {
     }
 
     var tripActivities: [Activity] {
-        sorted.filter { $0.region == .kreta }
+        sorted.filter { $0.region == .crete }
     }
 
     var highlights: [Activity] {

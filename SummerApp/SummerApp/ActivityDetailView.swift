@@ -20,7 +20,7 @@ struct ActivityDetailView: View {
                 HStack(spacing: 10) {
                     RatingStars(rating: activity.rating, size: 17)
                     if activity.rating == 5 {
-                        Text("Bester Tag der Reise")
+                        Text("One of the best days")
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(Theme.ink)
                     }
@@ -50,11 +50,11 @@ struct ActivityDetailView: View {
 
     private var facts: some View {
         VStack(spacing: 0) {
-            FactRow(label: "Dauer", value: activity.duration.isEmpty ? "[DAUER]" : activity.duration)
+            FactRow(label: "Duration", value: activity.duration.isEmpty ? "[DURATION]" : activity.duration)
             Divider().overlay(Theme.line)
-            FactRow(label: "Mit", value: activity.company)
+            FactRow(label: "With", value: activity.company)
             Divider().overlay(Theme.line)
-            FactRow(label: "Wetter", value: activity.weather.isEmpty ? "[WETTER]" : activity.weather)
+            FactRow(label: "Weather", value: activity.weather.isEmpty ? "[WEATHER]" : activity.weather)
         }
         .cardBackground(radius: 18)
     }

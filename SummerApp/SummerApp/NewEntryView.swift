@@ -7,8 +7,8 @@ struct NewEntryView: View {
     @State private var title = ""
     @State private var place = ""
     @State private var date = Date()
-    @State private var category = Category.wassersport
-    @State private var region = Region.zuhause
+    @State private var category = Category.watersports
+    @State private var region = Region.home
     @State private var rating = 5
     @State private var note = ""
 
@@ -20,23 +20,23 @@ struct NewEntryView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Field(label: "Was hast du gemacht") {
-                        TextField("Jetski am Vai Beach", text: $title)
+                    Field(label: "What did you do") {
+                        TextField("Jet ski at Vai Beach", text: $title)
                     }
-                    Field(label: "Ort") {
-                        TextField("Vai, Kreta", text: $place)
+                    Field(label: "Place") {
+                        TextField("Vai, Crete", text: $place)
                     }
-                    Field(label: "Datum") {
+                    Field(label: "Date") {
                         DatePicker("", selection: $date, displayedComponents: .date)
                             .labelsHidden()
                     }
-                    Field(label: "Kategorie") {
+                    Field(label: "Category") {
                         Picker("", selection: $category) {
                             ForEach(Category.allCases) { Text($0.rawValue).tag($0) }
                         }
                         .labelsHidden()
                     }
-                    Field(label: "Wo") {
+                    Field(label: "Where") {
                         Picker("", selection: $region) {
                             ForEach(Region.allCases) { Text($0.rawValue).tag($0) }
                         }
@@ -44,7 +44,7 @@ struct NewEntryView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Wie war es")
+                        Text("How was it")
                             .eyebrow()
                             .foregroundStyle(Theme.muted)
                         HStack(spacing: 2) {
@@ -58,12 +58,12 @@ struct NewEntryView: View {
                                         .frame(width: 46, height: 46)
                                 }
                                 .buttonStyle(.plain)
-                                .accessibilityLabel("\(value) von 5")
+                                .accessibilityLabel("\(value) out of 5")
                             }
                         }
                     }
 
-                    Field(label: "Notiz") {
+                    Field(label: "Note") {
                         TextEditor(text: $note)
                             .frame(height: 96)
                             .scrollContentBackground(.hidden)
@@ -72,7 +72,7 @@ struct NewEntryView: View {
                 .padding(20)
             }
             .background(Theme.sand)
-            .navigationTitle("Neuer Eintrag")
+            .navigationTitle("New entry")
             .navigationBarTitleDisplayMode(.inline)
             .safeAreaInset(edge: .bottom) { saveBar }
         }
@@ -80,7 +80,7 @@ struct NewEntryView: View {
 
     private var saveBar: some View {
         Button(action: save) {
-            Text("Speichern")
+            Text("Save")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity, minHeight: 54)
@@ -97,7 +97,7 @@ struct NewEntryView: View {
         store.add(
             Activity(
                 title: title,
-                place: place.isEmpty ? "[DEIN ORT]" : place,
+                place: place.isEmpty ? "[YOUR PLACE]" : place,
                 date: date,
                 category: category,
                 region: region,

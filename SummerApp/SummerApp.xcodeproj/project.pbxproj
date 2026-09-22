@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C0000000000000000000001 /* SommerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000001 /* SommerApp.swift */; };
+		3C0000000000000000000001 /* SummerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000001 /* SummerApp.swift */; };
 		3C0000000000000000000002 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000002 /* Theme.swift */; };
 		3C0000000000000000000003 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000003 /* Model.swift */; };
 		3C0000000000000000000004 /* SummerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000004 /* SummerData.swift */; };
@@ -22,8 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A00000000000000000000A6 /* SommerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SommerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B0000000000000000000001 /* SommerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SommerApp.swift; sourceTree = "<group>"; };
+		1A00000000000000000000A6 /* SummerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B0000000000000000000001 /* SummerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummerApp.swift; sourceTree = "<group>"; };
 		2B0000000000000000000002 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		2B0000000000000000000003 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2B0000000000000000000004 /* SummerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummerData.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		1A00000000000000000000A2 = {
 			isa = PBXGroup;
 			children = (
-				1A00000000000000000000A4 /* SommerApp */,
+				1A00000000000000000000A4 /* SummerApp */,
 				1A00000000000000000000A3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,15 +59,15 @@
 		1A00000000000000000000A3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A00000000000000000000A6 /* SommerApp.app */,
+				1A00000000000000000000A6 /* SummerApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1A00000000000000000000A4 /* SommerApp */ = {
+		1A00000000000000000000A4 /* SummerApp */ = {
 			isa = PBXGroup;
 			children = (
-				2B0000000000000000000001 /* SommerApp.swift */,
+				2B0000000000000000000001 /* SummerApp.swift */,
 				2B0000000000000000000003 /* Model.swift */,
 				2B0000000000000000000004 /* SummerData.swift */,
 				2B0000000000000000000002 /* Theme.swift */,
@@ -80,15 +80,15 @@
 				2B0000000000000000000011 /* ProfileView.swift */,
 				2B0000000000000000000012 /* Assets.xcassets */,
 			);
-			path = SommerApp;
+			path = SummerApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A00000000000000000000A5 /* SommerApp */ = {
+		1A00000000000000000000A5 /* SummerApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A00000000000000000000B2 /* Build configuration list for PBXNativeTarget "SommerApp" */;
+			buildConfigurationList = 1A00000000000000000000B2 /* Build configuration list for PBXNativeTarget "SummerApp" */;
 			buildPhases = (
 				1A00000000000000000000A7 /* Sources */,
 				1A00000000000000000000A9 /* Frameworks */,
@@ -98,9 +98,9 @@
 			);
 			dependencies = (
 			);
-			name = SommerApp;
-			productName = SommerApp;
-			productReference = 1A00000000000000000000A6 /* SommerApp.app */;
+			name = SummerApp;
+			productName = SummerApp;
+			productReference = 1A00000000000000000000A6 /* SummerApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -118,12 +118,12 @@
 					};
 				};
 			};
-			buildConfigurationList = 1A00000000000000000000B1 /* Build configuration list for PBXProject "SommerApp" */;
+			buildConfigurationList = 1A00000000000000000000B1 /* Build configuration list for PBXProject "SummerApp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = de;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				de,
+				en,
 				Base,
 			);
 			mainGroup = 1A00000000000000000000A2;
@@ -131,7 +131,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A00000000000000000000A5 /* SommerApp */,
+				1A00000000000000000000A5 /* SummerApp */,
 			);
 		};
 /* End PBXProject section */
@@ -152,7 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C0000000000000000000001 /* SommerApp.swift in Sources */,
+				3C0000000000000000000001 /* SummerApp.swift in Sources */,
 				3C0000000000000000000003 /* Model.swift in Sources */,
 				3C0000000000000000000004 /* SummerData.swift in Sources */,
 				3C0000000000000000000002 /* Theme.swift in Sources */,
@@ -225,7 +225,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Sommer 26";
+				INFOPLIST_KEY_CFBundleDisplayName = "Summer 26";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -236,7 +236,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.sommer26;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.summer26;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -253,7 +253,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Sommer 26";
+				INFOPLIST_KEY_CFBundleDisplayName = "Summer 26";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -264,7 +264,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.sommer26;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.summer26;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -275,7 +275,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1A00000000000000000000B1 /* Build configuration list for PBXProject "SommerApp" */ = {
+		1A00000000000000000000B1 /* Build configuration list for PBXProject "SummerApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00000000000000000000B3 /* Debug */,
@@ -284,7 +284,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A00000000000000000000B2 /* Build configuration list for PBXNativeTarget "SommerApp" */ = {
+		1A00000000000000000000B2 /* Build configuration list for PBXNativeTarget "SummerApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00000000000000000000B5 /* Debug */,

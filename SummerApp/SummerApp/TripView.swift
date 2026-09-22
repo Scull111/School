@@ -16,7 +16,7 @@ struct TripView: View {
             .padding(20)
         }
         .background(Theme.sand)
-        .navigationTitle("Reise")
+        .navigationTitle("Trip")
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -40,9 +40,9 @@ struct TripView: View {
 
     private var chips: some View {
         HStack(spacing: 8) {
-            Chip(text: "\(trip.dayCount) Tage")
-            Chip(text: "\(store.tripActivities.count) Aktivitäten")
-            Chip(text: "\(Set(store.tripActivities.map(\.place)).count) Orte")
+            Chip(text: "\(trip.dayCount) days")
+            Chip(text: "\(store.tripActivities.count) activities")
+            Chip(text: "\(Set(store.tripActivities.map(\.place)).count) places")
         }
     }
 
@@ -68,7 +68,7 @@ struct TripView: View {
 
     private var note: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Notiz")
+            Text("Note")
                 .eyebrow()
                 .foregroundStyle(Theme.clay)
             Text(trip.note)

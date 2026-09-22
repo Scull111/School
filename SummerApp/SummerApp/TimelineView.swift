@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TimelineView: View {
     @Environment(SummerStore.self) private var store
-    @State private var filter = TimelineFilter.alle
+    @State private var filter = TimelineFilter.all
 
     var body: some View {
         NavigationStack {
@@ -37,7 +37,7 @@ struct TimelineView: View {
                 Text("Timeline")
                     .font(.display(34))
                     .foregroundStyle(Theme.ink)
-                Text("\(store.activities(in: filter.region).count) Einträge von Juni bis August")
+                Text("\(store.activities(in: filter.region).count) entries from June to August")
                     .font(.system(size: 13))
                     .foregroundStyle(Theme.muted)
             }
