@@ -18,6 +18,7 @@
 		3C0000000000000000000009 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000009 /* ActivityDetailView.swift */; };
 		3C0000000000000000000010 /* ActivityEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000010 /* ActivityEditor.swift */; };
 		3C0000000000000000000011 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000011 /* ProfileView.swift */; };
+		3C0000000000000000000013 /* PhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000013 /* PhotoStore.swift */; };
 		3C0000000000000000000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B0000000000000000000012 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		2B0000000000000000000009 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		2B0000000000000000000010 /* ActivityEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditor.swift; sourceTree = "<group>"; };
 		2B0000000000000000000011 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2B0000000000000000000013 /* PhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStore.swift; sourceTree = "<group>"; };
 		2B0000000000000000000012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +72,7 @@
 				2B0000000000000000000001 /* SummerApp.swift */,
 				2B0000000000000000000003 /* Model.swift */,
 				2B0000000000000000000004 /* SummerData.swift */,
+				2B0000000000000000000013 /* PhotoStore.swift */,
 				2B0000000000000000000002 /* Theme.swift */,
 				2B0000000000000000000005 /* ActivityRow.swift */,
 				2B0000000000000000000006 /* SummerView.swift */,
@@ -155,6 +158,7 @@
 				3C0000000000000000000001 /* SummerApp.swift in Sources */,
 				3C0000000000000000000003 /* Model.swift in Sources */,
 				3C0000000000000000000004 /* SummerData.swift in Sources */,
+				3C0000000000000000000013 /* PhotoStore.swift in Sources */,
 				3C0000000000000000000002 /* Theme.swift in Sources */,
 				3C0000000000000000000005 /* ActivityRow.swift in Sources */,
 				3C0000000000000000000006 /* SummerView.swift in Sources */,

@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct SummerApp: App {
-    @State private var store = SummerStore.sample
+    @State private var store = SummerStore.loadOrSample()
 
     var body: some Scene {
         WindowGroup {

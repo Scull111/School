@@ -1,13 +1,13 @@
 import SwiftUI
 
-enum Region: String, CaseIterable, Identifiable, Hashable {
+enum Region: String, CaseIterable, Identifiable, Hashable, Codable {
     case crete = "Crete"
     case home = "Home"
 
     var id: String { rawValue }
 }
 
-enum Category: String, CaseIterable, Identifiable, Hashable {
+enum Category: String, CaseIterable, Identifiable, Hashable, Codable {
     case watersports = "Watersports"
     case sport = "Sport"
     case dayTrip = "Day trip"
@@ -43,7 +43,7 @@ enum Category: String, CaseIterable, Identifiable, Hashable {
     }
 }
 
-struct Activity: Identifiable, Hashable {
+struct Activity: Identifiable, Hashable, Codable {
     var id = UUID()
     var title: String
     var place: String
@@ -55,18 +55,10 @@ struct Activity: Identifiable, Hashable {
     var duration: String = ""
     var weather: String = ""
     var company: String = ""
-    var photos: [Data] = []
-
-    static func == (lhs: Activity, rhs: Activity) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+    var photoNames: [String] = []
 }
 
-struct Trip: Identifiable, Hashable {
+struct Trip: Identifiable, Hashable, Codable {
     var id = UUID()
     var name: String
     var destination: String
@@ -123,6 +115,25 @@ enum DateText {
     }
 }
 
+struct SummerArchive: Codable {
+    var trip: Trip
+    var activities: [Activity]
+
+    static var fileURL: URL {
+        URL.documentsDirectory.appending(path: "summer.json")
+    }
+
+    static func load() -> SummerArchive? {
+        guard let data = try? Data(contentsOf: fileURL) else { return nil }
+        return try? JSONDecoder().decode(SummerArchive.self, from: data)
+    }
+
+    func write() {
+        guard let data = try? JSONEncoder().encode(self) else { return }
+        try? data.write(to: Self.fileURL, options: .atomic)
+    }
+}
+
 @Observable
 final class SummerStore {
     var trip: Trip
@@ -131,6 +142,15 @@ final class SummerStore {
     init(trip: Trip, activities: [Activity]) {
         self.trip = trip
         self.activities = activities
+    }
+
+    static func loadOrSample() -> SummerStore {
+        if let archive = SummerArchive.load() {
+            return SummerStore(trip: archive.trip, activities: archive.activities)
+        }
+        let store = sample
+        store.save()
+        return store
     }
 
     var sorted: [Activity] {
@@ -157,8 +177,8 @@ final class SummerStore {
         tripActivities.filter { $0.rating == 5 }
     }
 
-    var tripPhotos: [Data] {
-        tripActivities.flatMap(\.photos)
+    var tripPhotoNames: [String] {
+        tripActivities.flatMap(\.photoNames)
     }
 
     func current(_ activity: Activity) -> Activity? {
@@ -185,14 +205,22 @@ final class SummerStore {
 
     func add(_ activity: Activity) {
         activities.append(activity)
+        save()
     }
 
     func update(_ activity: Activity) {
         guard let index = activities.firstIndex(where: { $0.id == activity.id }) else { return }
         activities[index] = activity
+        save()
     }
 
     func delete(_ activity: Activity) {
         activities.removeAll { $0.id == activity.id }
+        save()
+    }
+
+    func save() {
+        PhotoStore.prune(keeping: Set(activities.flatMap(\.photoNames)))
+        SummerArchive(trip: trip, activities: activities).write()
     }
 }

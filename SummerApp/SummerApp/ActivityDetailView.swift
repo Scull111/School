@@ -9,7 +9,7 @@ struct ActivityDetailView: View {
     @State private var editing = false
     @State private var confirmingDelete = false
 
-    private var current: Activity {
+    private var entry: Activity {
         store.current(activity) ?? activity
     }
 
@@ -19,17 +19,17 @@ struct ActivityDetailView: View {
                 photos
 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(current.title)
+                    Text(entry.title)
                         .font(.display(32))
                         .foregroundStyle(Theme.ink)
-                    Text("\(DateText.dayMonth(current.date)) · \(current.place) · \(current.category.rawValue)")
+                    Text("\(DateText.dayMonth(entry.date)) · \(entry.place) · \(entry.category.rawValue)")
                         .font(.system(size: 13))
                         .foregroundStyle(Theme.muted)
                 }
 
                 HStack(spacing: 10) {
-                    RatingStars(rating: current.rating, size: 17)
-                    if current.rating == 5 {
+                    RatingStars(rating: entry.rating, size: 17)
+                    if entry.rating == 5 {
                         Text("One of the best days")
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(Theme.ink)
@@ -37,12 +37,12 @@ struct ActivityDetailView: View {
                 }
 
                 HStack(spacing: 8) {
-                    Tag(text: current.category.rawValue, tint: current.category.tint)
-                    Tag(text: current.region.rawValue, tint: Theme.aegean)
+                    Tag(text: entry.category.rawValue, tint: entry.category.tint)
+                    Tag(text: entry.region.rawValue, tint: Theme.aegean)
                 }
 
-                if !current.note.isEmpty {
-                    Text(current.note)
+                if !entry.note.isEmpty {
+                    Text(entry.note)
                         .font(.system(size: 14))
                         .lineSpacing(4)
                         .foregroundStyle(Theme.ink.opacity(0.85))
@@ -57,7 +57,7 @@ struct ActivityDetailView: View {
             .padding(20)
         }
         .background(Theme.sand)
-        .navigationTitle(current.title)
+        .navigationTitle(entry.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -66,11 +66,11 @@ struct ActivityDetailView: View {
             }
         }
         .sheet(isPresented: $editing) {
-            ActivityEditor(activity: current)
+            ActivityEditor(activity: entry)
         }
         .confirmationDialog("Delete this entry?", isPresented: $confirmingDelete, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
-                store.delete(current)
+                store.delete(entry)
                 dismiss()
             }
             Button("Keep it", role: .cancel) { }
@@ -81,17 +81,17 @@ struct ActivityDetailView: View {
 
     private var photos: some View {
         Group {
-            if current.photos.isEmpty {
+            if entry.photoNames.isEmpty {
                 PhotoPlaceholder(height: 230)
-            } else if current.photos.count == 1 {
-                PhotoThumb(data: current.photos[0])
+            } else if entry.photoNames.count == 1 {
+                PhotoThumb(name: entry.photoNames[0])
                     .frame(maxWidth: .infinity)
                     .frame(height: 230)
                     .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
             } else {
                 TabView {
-                    ForEach(Array(current.photos.enumerated()), id: \.offset) { _, data in
-                        PhotoThumb(data: data)
+                    ForEach(entry.photoNames, id: \.self) { name in
+                        PhotoThumb(name: name)
                             .frame(maxWidth: .infinity)
                             .frame(height: 230)
                             .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -105,11 +105,11 @@ struct ActivityDetailView: View {
 
     private var facts: some View {
         VStack(spacing: 0) {
-            FactRow(label: "Duration", value: current.duration.isEmpty ? "[DURATION]" : current.duration)
+            FactRow(label: "Duration", value: entry.duration.isEmpty ? "[DURATION]" : entry.duration)
             Divider().overlay(Theme.line)
-            FactRow(label: "With", value: current.company.isEmpty ? "[WITH WHOM]" : current.company)
+            FactRow(label: "With", value: entry.company.isEmpty ? "[WITH WHOM]" : entry.company)
             Divider().overlay(Theme.line)
-            FactRow(label: "Weather", value: current.weather.isEmpty ? "[WEATHER]" : current.weather)
+            FactRow(label: "Weather", value: entry.weather.isEmpty ? "[WEATHER]" : entry.weather)
         }
         .cardBackground(radius: 18)
     }

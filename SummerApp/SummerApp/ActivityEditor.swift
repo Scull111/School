@@ -18,7 +18,7 @@ struct ActivityEditor: View {
     @State private var duration: String
     @State private var company: String
     @State private var weather: String
-    @State private var photos: [Data]
+    @State private var photoNames: [String]
     @State private var picked: [PhotosPickerItem] = []
     @State private var confirmingDelete = false
 
@@ -35,7 +35,7 @@ struct ActivityEditor: View {
         _duration = State(initialValue: activity?.duration ?? "")
         _company = State(initialValue: activity?.company ?? "")
         _weather = State(initialValue: activity?.weather ?? "")
-        _photos = State(initialValue: activity?.photos ?? [])
+        _photoNames = State(initialValue: activity?.photoNames ?? [])
     }
 
     private var isEditing: Bool { activity != nil }
@@ -136,16 +136,16 @@ struct ActivityEditor: View {
                 .eyebrow()
                 .foregroundStyle(Theme.muted)
 
-            if !photos.isEmpty {
+            if !photoNames.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
-                        ForEach(Array(photos.enumerated()), id: \.offset) { index, data in
-                            PhotoThumb(data: data)
+                        ForEach(Array(photoNames.enumerated()), id: \.element) { index, name in
+                            PhotoThumb(name: name)
                                 .frame(width: 92, height: 92)
                                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                 .overlay(alignment: .topTrailing) {
                                     Button {
-                                        photos.remove(at: index)
+                                        photoNames.remove(at: index)
                                     } label: {
                                         Image(systemName: "xmark")
                                             .font(.system(size: 11, weight: .bold))
@@ -170,7 +170,7 @@ struct ActivityEditor: View {
                 HStack(spacing: 8) {
                     Image(systemName: "photo.badge.plus")
                         .font(.system(size: 17))
-                    Text(photos.isEmpty ? "Add photos from your library" : "Add more photos")
+                    Text(photoNames.isEmpty ? "Add photos from your library" : "Add more photos")
                         .font(.system(size: 14, weight: .semibold))
                 }
                 .foregroundStyle(Theme.muted)
@@ -224,13 +224,12 @@ struct ActivityEditor: View {
 
     @MainActor
     private func load(_ items: [PhotosPickerItem]) async {
-        var loaded: [Data] = []
         for item in items {
-            if let data = try? await item.loadTransferable(type: Data.self) {
-                loaded.append(data)
+            guard let data = try? await item.loadTransferable(type: Data.self) else { continue }
+            if let name = PhotoStore.save(data) {
+                photoNames.append(name)
             }
         }
-        photos.append(contentsOf: loaded)
         picked = []
     }
 
@@ -246,7 +245,7 @@ struct ActivityEditor: View {
             edited.duration = duration
             edited.company = company
             edited.weather = weather
-            edited.photos = photos
+            edited.photoNames = photoNames
             store.update(edited)
         } else {
             store.add(
@@ -261,7 +260,7 @@ struct ActivityEditor: View {
                     duration: duration,
                     weather: weather,
                     company: company,
-                    photos: photos
+                    photoNames: photoNames
                 )
             )
             reset()
@@ -299,7 +298,7 @@ struct ActivityEditor: View {
         duration = ""
         company = ""
         weather = ""
-        photos = []
+        photoNames = []
     }
 }
 

@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 enum Theme {
     static let sand = Color(red: 0.98, green: 0.97, blue: 0.94)
@@ -75,10 +74,10 @@ struct PhotoPlaceholder: View {
 }
 
 struct PhotoThumb: View {
-    let data: Data
+    let name: String
 
     var body: some View {
-        if let image = UIImage(data: data) {
+        if let image = PhotoStore.image(name) {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()

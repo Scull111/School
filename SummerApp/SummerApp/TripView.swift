@@ -2,7 +2,8 @@ import SwiftUI
 
 struct TripView: View {
     @Environment(SummerStore.self) private var store
-    let trip: Trip
+
+    private var trip: Trip { store.trip }
 
     var body: some View {
         ScrollView {
@@ -47,11 +48,11 @@ struct TripView: View {
     }
 
     private var photos: some View {
-        let shots = Array(store.tripPhotos.prefix(3))
+        let shots = Array(store.tripPhotoNames.prefix(3))
         return HStack(spacing: 10) {
             ForEach(0..<3, id: \.self) { index in
                 if index < shots.count {
-                    PhotoThumb(data: shots[index])
+                    PhotoThumb(name: shots[index])
                         .frame(maxWidth: .infinity)
                         .frame(height: 96)
                         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))

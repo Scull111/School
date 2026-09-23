@@ -17,8 +17,8 @@ struct ActivityRow: View {
                         .frame(width: 8, height: 8)
                 }
                 .frame(width: 34)
-            } else if let photo = activity.photos.first {
-                PhotoThumb(data: photo)
+            } else if let photo = activity.photoNames.first {
+                PhotoThumb(name: photo)
                     .frame(width: 42, height: 42)
                     .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
             } else {
@@ -40,7 +40,7 @@ struct ActivityRow: View {
 
             Spacer(minLength: 8)
 
-            if !activity.photos.isEmpty && showsDay {
+            if !activity.photoNames.isEmpty && showsDay {
                 Image(systemName: "photo")
                     .font(.system(size: 12))
                     .foregroundStyle(Theme.muted.opacity(0.7))

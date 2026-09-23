@@ -24,8 +24,18 @@ Needs iOS 17 and Xcode 15 or newer.
   entry, remove one with the ✗ on its thumbnail. An entry with photos shows them as a swipeable
   gallery, uses the first one as its row thumbnail, and fills the photo row on the trip page.
 
-Entries live in memory only, so anything added, edited or deleted is gone on relaunch and the
-sample summer comes back. Saving to disk would be the next step.
+## One source of truth
+
+Every screen reads the same `SummerStore`, handed down once from `SummerApp` through
+`.environment`. No view keeps its own copy of an entry: `ActivityDetailView` looks its entry up
+by id on every draw, `TripView` reads `store.trip`, and the lists are computed from
+`store.activities`. Change a title in the editor and the timeline row, the home screen, the
+trip highlights and the stats all show it immediately.
+
+The store writes itself to `Documents/summer.json` after every add, edit and delete, and loads
+from there on launch, falling back to the sample summer the first time. Photos live in
+`Documents/Photos` as downscaled JPEGs; an entry stores only their file names, and files no
+longer referenced are cleaned up on the next save.
 
 ## Structure
 
@@ -35,6 +45,7 @@ sample summer comes back. Saving to disk would be the next step.
 | `Model.swift` | `Activity`, `Trip`, `Category`, `SummerStore` |
 | `SummerData.swift` | The entries of the summer |
 | `Theme.swift` | Colours, type and reusable pieces |
+| `PhotoStore.swift` | Photos on disk, downscaled and cached |
 | `ActivityRow.swift` | One row in the lists |
 | `SummerView.swift` | Home screen with the trip card, numbers and recent entries |
 | `TimelineView.swift` | Every entry by month, filterable, swipe to edit or delete |

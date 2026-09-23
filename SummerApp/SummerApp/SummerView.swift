@@ -16,7 +16,7 @@ struct SummerView: View {
             }
             .background(Theme.sand)
             .navigationDestination(for: Activity.self) { ActivityDetailView(activity: $0) }
-            .navigationDestination(for: Trip.self) { TripView(trip: $0) }
+            .navigationDestination(for: Trip.self) { _ in TripView() }
         }
     }
 
