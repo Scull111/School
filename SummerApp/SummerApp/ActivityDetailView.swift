@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ActivityDetailView: View {
-    @Environment(SummerStore.self) private var store
+    @Environment(ActivityStore.self) private var store
     @Environment(\.dismiss) private var dismiss
 
     let activity: Activity
@@ -10,153 +10,71 @@ struct ActivityDetailView: View {
     @State private var confirmingDelete = false
 
     private var entry: Activity {
-        store.current(activity) ?? activity
+        store.activities.first { $0.id == activity.id } ?? activity
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                photos
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(entry.title)
-                        .font(.display(32))
-                        .foregroundStyle(Theme.ink)
-                    Text("\(DateText.dayMonth(entry.date)) · \(entry.place) · \(entry.category.rawValue)")
-                        .font(.system(size: 13))
-                        .foregroundStyle(Theme.muted)
-                }
-
-                HStack(spacing: 10) {
-                    RatingStars(rating: entry.rating, size: 17)
-                    if entry.rating == 5 {
-                        Text("One of the best days")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(Theme.ink)
+        List {
+            if !entry.photos.isEmpty {
+                Section {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(entry.photos.indices, id: \.self) { index in
+                                PhotoImage(data: entry.photos[index])
+                                    .frame(width: 220, height: 150)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
                     }
                 }
+            }
 
-                HStack(spacing: 8) {
-                    Tag(text: entry.category.rawValue, tint: entry.category.tint)
-                    Tag(text: entry.region.rawValue, tint: Theme.aegean)
+            Section {
+                HStack(spacing: 3) {
+                    ForEach(1...5, id: \.self) { value in
+                        Image(systemName: value <= entry.rating ? "star.fill" : "star")
+                            .foregroundStyle(.orange)
+                    }
                 }
+                .accessibilityElement()
+                .accessibilityLabel("Rated \(entry.rating) out of 5")
 
                 if !entry.note.isEmpty {
                     Text(entry.note)
-                        .font(.system(size: 14))
-                        .lineSpacing(4)
-                        .foregroundStyle(Theme.ink.opacity(0.85))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(16)
-                        .cardBackground(radius: 18)
                 }
-
-                facts
-                deleteButton
             }
-            .padding(20)
+
+            Section {
+                LabeledContent("Place", value: entry.place)
+                LabeledContent("Date", value: entry.date.dayAndMonth)
+                LabeledContent("Category", value: entry.category.rawValue)
+                if !entry.duration.isEmpty {
+                    LabeledContent("Duration", value: entry.duration)
+                }
+                if !entry.weather.isEmpty {
+                    LabeledContent("Weather", value: entry.weather)
+                }
+            }
+
+            Section {
+                Button("Delete Entry", role: .destructive) {
+                    confirmingDelete = true
+                }
+            }
         }
-        .background(Theme.sand)
         .navigationTitle(entry.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button("Edit") { editing = true }
-                    .foregroundStyle(Theme.clay)
-            }
+            Button("Edit") { editing = true }
         }
         .sheet(isPresented: $editing) {
-            ActivityEditor(activity: entry)
+            ActivityFormView(activity: entry)
         }
         .confirmationDialog("Delete this entry?", isPresented: $confirmingDelete, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 store.delete(entry)
                 dismiss()
             }
-            Button("Keep it", role: .cancel) { }
-        } message: {
-            Text("This cannot be undone.")
         }
-    }
-
-    private var photos: some View {
-        Group {
-            if entry.photoNames.isEmpty {
-                PhotoPlaceholder(height: 230)
-            } else if entry.photoNames.count == 1 {
-                PhotoThumb(name: entry.photoNames[0])
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 230)
-                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            } else {
-                TabView {
-                    ForEach(entry.photoNames, id: \.self) { name in
-                        PhotoThumb(name: name)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 230)
-                            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                    }
-                }
-                .frame(height: 258)
-                .tabViewStyle(.page)
-            }
-        }
-    }
-
-    private var facts: some View {
-        VStack(spacing: 0) {
-            FactRow(label: "Duration", value: entry.duration.isEmpty ? "[DURATION]" : entry.duration)
-            Divider().overlay(Theme.line)
-            FactRow(label: "With", value: entry.company.isEmpty ? "[WITH WHOM]" : entry.company)
-            Divider().overlay(Theme.line)
-            FactRow(label: "Weather", value: entry.weather.isEmpty ? "[WEATHER]" : entry.weather)
-        }
-        .cardBackground(radius: 18)
-    }
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            confirmingDelete = true
-        } label: {
-            Label("Delete entry", systemImage: "trash")
-                .font(.system(size: 15, weight: .semibold))
-                .frame(maxWidth: .infinity, minHeight: 52)
-        }
-        .buttonStyle(.plain)
-        .foregroundStyle(Color.red)
-        .cardBackground()
-    }
-}
-
-struct FactRow: View {
-    let label: String
-    let value: String
-
-    var body: some View {
-        HStack {
-            Text(label)
-                .font(.system(size: 13))
-                .foregroundStyle(Theme.muted)
-            Spacer()
-            Text(value)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Theme.ink)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-    }
-}
-
-struct Tag: View {
-    let text: String
-    let tint: Color
-
-    var body: some View {
-        Text(text)
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundStyle(tint)
-            .padding(.horizontal, 13)
-            .padding(.vertical, 8)
-            .background(tint.opacity(0.12), in: Capsule())
     }
 }
