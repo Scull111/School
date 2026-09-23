@@ -14,24 +14,31 @@ Needs iOS 17 and Xcode 15 or newer.
 
 ## What it does
 
-- One list of entries, grouped by month, filtered by Crete / Home.
-- Tap an entry for the details, **Edit** to change it, **Delete Entry** to remove it.
-- Swipe a row to delete it from the list.
-- **+** adds a new entry.
-- Photos come from the library through `PhotosPicker`, up to five per entry.
+Three tabs:
 
-Everything reads from one `ActivityStore`, so a change in the form shows up in the list and the
-counts right away. The store saves itself to `Documents/activities.json` after every change and
-loads it at launch; the sample summer only seeds the first run.
+- **Summer** — the trip, the four most recent entries and the five-star days.
+- **Timeline** — every entry grouped by month, filtered by Crete / Home, swipe a row to delete.
+- **Stats** — totals, a count per category and the best moment.
+
+Tap any entry for the details, **Edit** to change it, **Delete Entry** to remove it. **+** on
+the first two tabs adds a new one. Photos come from the library through `PhotosPicker`, up to
+five per entry.
+
+Everything reads from one `ActivityStore`, so a change in the form shows up on all three tabs
+right away. The store saves itself to `Documents/activities.json` after every change and loads
+it at launch; the sample summer only seeds the first run.
 
 ## Files
 
 | File | Contents |
 | --- | --- |
-| `SummerApp.swift` | App entry point |
+| `SummerApp.swift` | App entry point and the three tabs |
 | `Activity.swift` | The model, its enums and the sample summer |
 | `ActivityStore.swift` | The list of entries, loaded from and saved to JSON |
-| `ContentView.swift` | The main list |
+| `ActivityRow.swift` | One row, used by all three tabs |
+| `SummerView.swift` | Overview tab |
+| `TimelineView.swift` | Timeline tab |
+| `StatsView.swift` | Stats tab |
 | `ActivityDetailView.swift` | One entry |
 | `ActivityFormView.swift` | Add and edit |
 

@@ -6,8 +6,23 @@ struct SummerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
                 .environment(store)
+        }
+    }
+}
+
+struct RootView: View {
+    var body: some View {
+        TabView {
+            SummerView()
+                .tabItem { Label("Summer", systemImage: "sun.max") }
+
+            TimelineView()
+                .tabItem { Label("Timeline", systemImage: "list.bullet") }
+
+            StatsView()
+                .tabItem { Label("Stats", systemImage: "chart.bar") }
         }
     }
 }

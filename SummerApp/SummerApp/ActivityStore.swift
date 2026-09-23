@@ -16,6 +16,34 @@ final class ActivityStore {
         }
     }
 
+    var sorted: [Activity] {
+        activities.sorted { $0.date < $1.date }
+    }
+
+    var recent: [Activity] {
+        Array(sorted.reversed().prefix(4))
+    }
+
+    var bestDays: [Activity] {
+        sorted.filter { $0.rating == 5 }
+    }
+
+    var favourite: Activity? {
+        sorted.max { $0.rating < $1.rating }
+    }
+
+    var placeCount: Int {
+        Set(activities.map(\.place)).count
+    }
+
+    func count(in region: Region) -> Int {
+        activities.filter { $0.region == region }.count
+    }
+
+    func count(of category: Category) -> Int {
+        activities.filter { $0.category == category }.count
+    }
+
     func add(_ activity: Activity) {
         activities.append(activity)
         save()
