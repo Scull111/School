@@ -74,6 +74,8 @@ struct Ride: Identifiable, Codable, Hashable {
     var passengers: [String]
     var price: Double
     var tags: [RideTag]
+    /// Jede Fahrt hat die Schule als Start (Rückfahrt) oder als Ziel (Hinfahrt).
+    var toSchool: Bool
     var isOwn: Bool = false
 
     var freeSeats: Int { max(0, seats - passengers.count) }

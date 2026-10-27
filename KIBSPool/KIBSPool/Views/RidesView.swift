@@ -3,11 +3,13 @@ import SwiftUI
 struct RidesView: View {
     @EnvironmentObject var store: RideStore
     @State private var query = ""
+    @State private var direction = 0   // 0 alle, 1 zur Schule, 2 von der Schule
     @State private var tagFilter: RideTag?
     @State private var showOffer = false
 
     private var results: [Ride] {
-        store.search(destinationContains: query)
+        let dir: Bool? = direction == 0 ? nil : direction == 1
+        return store.search(destinationContains: query, toSchool: dir)
             .filter { tagFilter == nil || $0.tags.contains(tagFilter!) }
     }
 
@@ -20,6 +22,9 @@ struct RidesView: View {
                     }
                 }
                 Section {
+                    Picker("Richtung", selection: $direction) {
+                        Text("Alle").tag(0); Text("Zur Schule").tag(1); Text("Von der Schule").tag(2)
+                    }.pickerStyle(.segmented)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             tagButton(nil, "Alle")
@@ -27,7 +32,7 @@ struct RidesView: View {
                         }
                     }
                 }
-                Section(header: Text("Angebotene Fahrten ab \(RideStore.school)")) {
+                Section("Angebotene Fahrten") {
                     if results.isEmpty { Text("Keine Fahrten gefunden.").foregroundStyle(.secondary) }
                     ForEach(results) { ride in
                         NavigationLink { SelectRideView(ride: ride) } label: { RideRow(ride: ride) }
@@ -164,6 +169,7 @@ struct OfferRideView: View {
     @EnvironmentObject var store: RideStore
     @EnvironmentObject var auth: AuthService
     @Environment(\.dismiss) private var dismiss
+    @State private var toSchool = true
     @State private var place = ""
     @State private var departure = Date()
     @State private var distanceKm = 5.0
@@ -175,8 +181,11 @@ struct OfferRideView: View {
     var body: some View {
         NavigationStack {
             Form {
-                LabeledContent("Start", value: RideStore.school)
-                TextField("Zielort", text: $place)
+                Picker("Richtung", selection: $toSchool) {
+                    Text("Zur Schule").tag(true); Text("Von der Schule").tag(false)
+                }.pickerStyle(.segmented)
+                LabeledContent(toSchool ? "Ziel" : "Start", value: RideStore.school)
+                TextField(toSchool ? "Startort" : "Zielort", text: $place)
                 Stepper("Strecke: \(distanceKm.formatted(.number.precision(.fractionLength(0...1)))) km",
                         value: $distanceKm, in: 1...50, step: 0.5)
                 TextField("Fahrzeug (z. B. VW ID.4)", text: $vehicle)
@@ -197,11 +206,11 @@ struct OfferRideView: View {
                     Button("Anbieten") {
                         let u = auth.current
                         store.offer(Ride(id: UUID(), driverName: u?.displayName ?? "", driverVerified: u?.verified ?? false,
-                                         vehicle: vehicle, plate: "", origin: RideStore.school,
-                                         destination: place, departure: departure,
+                                         vehicle: vehicle, plate: "", origin: toSchool ? place : RideStore.school,
+                                         destination: toSchool ? RideStore.school : place, departure: departure,
                                          arrival: departure.addingTimeInterval(distanceKm * 3.5 * 60),
                                          distanceKm: distanceKm, seats: seats, passengers: [],
-                                         price: price, tags: Array(tags), isOwn: true))
+                                         price: price, tags: Array(tags), toSchool: toSchool, isOwn: true))
                         dismiss()
                     }.disabled(place.isEmpty)
                 }

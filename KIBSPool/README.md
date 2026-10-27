@@ -24,7 +24,7 @@ Passwörter werden gesalzen (SHA-256) gespeichert. Für den Produktivbetrieb: Ko
 - Kein Tracking: keine Analyse-SDKs, kein Standortzugriff, nur lokale Speicherung (`completeFileProtection`)
 - (Vor-)Verifizierung: vergebene Benutzernamen/Passwörter, Konto muss freigegeben sein; Fahrer-Verifizierung sichtbar
 - Datenschutz-Einwilligung beim ersten Start (widerrufbar)
-- Angebotene Fahrten (starten immer an der Schule), Suche, Tag-Filter, Fahrt anbieten mit Zielort und Strecke
+- Angebotene Fahrten (Start oder Ziel ist immer die Schule), Suche, Tag-Filter, Fahrt anbieten mit Zielort und Strecke
 - Verkehrsmittel eintragen (Zu Fuß, Fahrrad, E-Scooter, Bus, Bahn, Mitfahren, Elterntaxi) mit Strecke in km; der CO₂-Score ergibt sich aus der Ersparnis gegenüber derselben Strecke allein im Auto (170 g/km). Abgeschlossene Pool-Fahrten fließen automatisch ein
 - Lokale Fahrt-Benachrichtigungen
 - Konto: Elternkontrolle, Datenspeicher (Export/Löschen)

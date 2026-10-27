@@ -8,7 +8,6 @@ struct HomeView: View {
 
     static let kibs = CLLocationCoordinate2D(latitude: 52.3759, longitude: 9.7320)
     @State private var showProfile = false
-    @State private var showOffer = false
 
     var body: some View {
         NavigationStack {
@@ -25,14 +24,14 @@ struct HomeView: View {
                 VStack(spacing: 12) {
                     Button(action: goToRides) {
                         HStack { Image(systemName: "magnifyingglass").foregroundStyle(Theme.green)
-                            Text("Wohin ab der Schule?").foregroundStyle(.secondary); Spacer() }
+                            Text("Wohin?").foregroundStyle(.secondary); Spacer() }
                             .font(.title3).padding(16)
                             .background(.background, in: Capsule()).shadow(radius: 4)
                     }
                     HStack {
-                        quick("Nach Hause", "house") { goToRides() }
+                        quick("Zur Schule", "building.columns") { goToRides() }
                         Divider().frame(height: 40)
-                        quick("Fahrt anbieten", "plus.circle") { showOffer = true }
+                        quick("Nach Hause", "house") { goToRides() }
                     }.card()
                     if let ride = store.bookedRide {
                         NavigationLink { ActiveRideView(ride: ride) } label: { departureRow(ride) }
@@ -51,7 +50,6 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showProfile) { AccountView() }
-            .sheet(isPresented: $showOffer) { OfferRideView() }
         }
     }
 

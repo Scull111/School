@@ -28,17 +28,21 @@ final class RideStore: ObservableObject {
         } else {
             rides = Self.sampleRides()
         }
-        // Rides from earlier days are dropped; rides may only start at school.
-        rides.removeAll { $0.departure < Calendar.current.startOfDay(for: .now) || $0.origin != Self.school }
+        // Rides from earlier days are dropped; every ride must start or end at school.
+        rides.removeAll {
+            $0.departure < Calendar.current.startOfDay(for: .now)
+                || ($0.origin != Self.school && $0.destination != Self.school)
+        }
         if rides.isEmpty { rides = Self.sampleRides() }
     }
 
     static let school = "KIBS Hannover"
 
-    func search(destinationContains query: String) -> [Ride] {
+    func search(destinationContains query: String, toSchool: Bool?) -> [Ride] {
         let q = query.trimmingCharacters(in: .whitespaces).lowercased()
         return rides
-            .filter { q.isEmpty || $0.destination.lowercased().contains(q) }
+            .filter { toSchool == nil || $0.toSchool == toSchool! }
+            .filter { q.isEmpty || $0.destination.lowercased().contains(q) || $0.origin.lowercased().contains(q) }
             .sorted { $0.departure < $1.departure }
     }
 
@@ -130,13 +134,19 @@ final class RideStore: ObservableObject {
             Ride(id: UUID(), driverName: "Alex M.", driverVerified: true, vehicle: "VW ID.4", plate: "HN-KP 248",
                  origin: school, destination: "Hannover Südstadt", departure: at(13, 30), arrival: at(13, 52),
                  distanceKm: 6.5, seats: 4, passengers: ["Mia", "Jonas", "Lea"], price: 2.40,
-                 tags: [.geteilt, .guenstig, .gruen]),
+                 tags: [.geteilt, .guenstig, .gruen], toSchool: false),
+            Ride(id: UUID(), driverName: "Alex M.", driverVerified: true, vehicle: "VW ID.4", plate: "HN-KP 248",
+                 origin: "Hannover Südstadt", destination: school, departure: at(7, 30), arrival: at(7, 52),
+                 distanceKm: 6.5, seats: 4, passengers: ["Mia", "Jonas", "Lea"], price: 2.40,
+                 tags: [.geteilt, .guenstig, .gruen], toSchool: true),
             Ride(id: UUID(), driverName: "Sabine W.", driverVerified: true, vehicle: "Renault Zoe", plate: "H-SW 101",
                  origin: school, destination: "Linden", departure: at(15, 20), arrival: at(15, 45),
-                 distanceKm: 8, seats: 3, passengers: ["Tom"], price: 2.80, tags: [.geteilt, .elektro, .gruen]),
+                 distanceKm: 8, seats: 3, passengers: ["Tom"], price: 2.80, tags: [.geteilt, .elektro, .gruen],
+                 toSchool: false),
             Ride(id: UUID(), driverName: "Jürgen P.", driverVerified: true, vehicle: "Skoda Octavia", plate: "H-JP 77",
                  origin: school, destination: "Döhren", departure: at(15, 30), arrival: at(15, 55),
-                 distanceKm: 7, seats: 3, passengers: [], price: 3.10, tags: [.geteilt, .ruhig])
+                 distanceKm: 7, seats: 3, passengers: [], price: 3.10, tags: [.geteilt, .ruhig],
+                 toSchool: false)
         ]
     }
 }
