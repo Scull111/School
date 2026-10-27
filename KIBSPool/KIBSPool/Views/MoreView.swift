@@ -78,33 +78,59 @@ struct AccountView: View {
 
 struct TransportLogView: View {
     @EnvironmentObject var store: RideStore
-    @State private var justLogged: TransportMode?
+    @State private var mode: TransportMode = .bike
+    @State private var km = 3.0
+    @State private var date = Date()
+    @State private var confirmation: String?
+
+    private var saved: Double { mode.savedKg(km: km) }
 
     var body: some View {
         List {
-            Section("Wie bist du heute gekommen?") {
-                ForEach(TransportMode.allCases) { mode in
-                    Button {
-                        store.logTrip(mode); justLogged = mode
-                    } label: {
+            Section("Wie bist du unterwegs gewesen?") {
+                ForEach(TransportMode.allCases) { m in
+                    Button { mode = m } label: {
                         HStack {
-                            Image(systemName: mode.symbol).frame(width: 32).foregroundStyle(Theme.green)
-                            Text(mode.rawValue).foregroundStyle(.primary)
+                            Image(systemName: m.symbol).frame(width: 32).foregroundStyle(Theme.green)
+                            Text(m.rawValue).foregroundStyle(.primary)
                             Spacer()
-                            Text("\(mode.gramsCO2) g CO₂").font(.caption).foregroundStyle(.secondary)
+                            Text("\(Int(m.gramsPerKm)) g CO₂/km").font(.caption).foregroundStyle(.secondary)
+                            Image(systemName: mode == m ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(mode == m ? Theme.green : .gray)
                         }
                     }
                 }
             }
-            if let m = justLogged {
-                Text("\(m.rawValue) eingetragen.").foregroundStyle(Theme.green)
+            Section("Strecke") {
+                Stepper(value: $km, in: 0.5...50, step: 0.5) {
+                    Text("\(km.formatted(.number.precision(.fractionLength(0...1)))) km")
+                }
+                DatePicker("Datum", selection: $date, in: ...Date.now, displayedComponents: .date)
+                HStack {
+                    Image(systemName: "leaf.fill").foregroundStyle(Theme.green)
+                    Text("Spart \(saved.formatted(.number.precision(.fractionLength(2)))) kg CO₂").bold()
+                }
+                Button("Eintragen") {
+                    store.logTrip(mode, km: km, on: date)
+                    confirmation = "\(mode.rawValue), \(km.formatted(.number.precision(.fractionLength(0...1)))) km eingetragen."
+                }.buttonStyle(PrimaryButtonStyle())
+                if let c = confirmation { Text(c).font(.footnote).foregroundStyle(Theme.green) }
             }
             Section("Verlauf") {
-                ForEach(store.tripLogs.reversed()) { log in
+                if store.tripLogs.isEmpty { Text("Noch keine Wege eingetragen.").foregroundStyle(.secondary) }
+                ForEach(store.tripLogs.sorted { $0.date > $1.date }) { log in
                     HStack {
                         Image(systemName: log.mode.symbol).foregroundStyle(Theme.green)
-                        Text(log.mode.rawValue); Spacer()
-                        Text(log.date, format: .dateTime.day().month().hour().minute()).foregroundStyle(.secondary)
+                        VStack(alignment: .leading) {
+                            Text(log.mode.rawValue)
+                            Text("\(log.distanceKm.formatted(.number.precision(.fractionLength(0...1)))) km")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text("−\(log.savedKg.formatted(.number.precision(.fractionLength(2)))) kg").foregroundStyle(Theme.green)
+                            Text(log.date, format: .dateTime.day().month()).font(.caption).foregroundStyle(.secondary)
+                        }
                     }
                 }
             }

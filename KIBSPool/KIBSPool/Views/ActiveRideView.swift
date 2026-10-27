@@ -54,7 +54,7 @@ struct ActiveRideView: View {
                     .padding(14).background(Theme.greenSoft, in: RoundedRectangle(cornerRadius: 16))
 
                 Button("Fahrt abschließen") {
-                    store.logTrip(.pool); store.cancelBookingAfterRide(); dismiss()
+                    store.logTrip(.pool, km: ride.distanceKm); store.cancelBookingAfterRide(); dismiss()
                 }.buttonStyle(PrimaryButtonStyle())
                 Button("Buchung stornieren", role: .destructive) {
                     store.cancelBooking(as: auth.current?.displayName ?? ""); dismiss()
@@ -82,7 +82,7 @@ struct RouteCard: View {
         let home = CLLocationCoordinate2D(latitude: kibs.latitude - 0.02, longitude: kibs.longitude + 0.012)
         let stop1 = CLLocationCoordinate2D(latitude: kibs.latitude - 0.007, longitude: kibs.longitude + 0.004)
         let stop2 = CLLocationCoordinate2D(latitude: kibs.latitude - 0.014, longitude: kibs.longitude + 0.009)
-        let path = ride.toSchool ? [home, stop2, stop1, kibs] : [kibs, stop1, stop2, home]
+        let path = [kibs, stop1, stop2, home]
         Map(interactionModes: []) {
             MapPolyline(coordinates: path).stroke(Theme.green, lineWidth: 5)
             Marker("KIBS Hannover", coordinate: kibs).tint(Theme.green)

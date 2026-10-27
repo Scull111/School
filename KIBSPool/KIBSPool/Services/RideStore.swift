@@ -28,16 +28,17 @@ final class RideStore: ObservableObject {
         } else {
             rides = Self.sampleRides()
         }
-        // Rides from earlier days are dropped.
-        rides.removeAll { $0.departure < Calendar.current.startOfDay(for: .now) }
+        // Rides from earlier days are dropped; rides may only start at school.
+        rides.removeAll { $0.departure < Calendar.current.startOfDay(for: .now) || $0.origin != Self.school }
         if rides.isEmpty { rides = Self.sampleRides() }
     }
 
-    func search(destinationContains query: String, toSchool: Bool?) -> [Ride] {
+    static let school = "KIBS Hannover"
+
+    func search(destinationContains query: String) -> [Ride] {
         let q = query.trimmingCharacters(in: .whitespaces).lowercased()
         return rides
-            .filter { toSchool == nil || $0.toSchool == toSchool! }
-            .filter { q.isEmpty || $0.destination.lowercased().contains(q) || $0.origin.lowercased().contains(q) }
+            .filter { q.isEmpty || $0.destination.lowercased().contains(q) }
             .sorted { $0.departure < $1.departure }
     }
 
@@ -74,8 +75,9 @@ final class RideStore: ObservableObject {
         save()
     }
 
-    func logTrip(_ mode: TransportMode) {
-        tripLogs.append(TripLog(id: UUID(), date: .now, mode: mode))
+    func logTrip(_ mode: TransportMode, km: Double, on date: Date = .now) {
+        guard km > 0 else { return }
+        tripLogs.append(TripLog(id: UUID(), date: date, mode: mode, distanceKm: km))
         save()
     }
 
@@ -88,13 +90,13 @@ final class RideStore: ObservableObject {
 
     // MARK: CO2
 
-    /// Gespart gegenüber einer Einzelfahrt im Auto (1200 g).
+    /// Gespart gegenüber derselben Strecke allein im Auto.
     func savedKg(since: Date? = nil) -> Double {
-        let solo = TransportMode.car.gramsCO2
-        return tripLogs
+        tripLogs
             .filter { since == nil || $0.date >= since! }
-            .reduce(0) { $0 + Double(solo - $1.mode.gramsCO2) } / 1000
+            .reduce(0) { $0 + $1.savedKg }
     }
+    var totalKm: Double { tripLogs.reduce(0) { $0 + $1.distanceKm } }
     var avoidedCarTrips: Int { tripLogs.filter { $0.mode != .car }.count }
 
     // MARK: Data control
@@ -126,17 +128,15 @@ final class RideStore: ObservableObject {
         func at(_ h: Int, _ m: Int) -> Date { cal.date(bySettingHour: h, minute: m, second: 0, of: .now) ?? .now }
         return [
             Ride(id: UUID(), driverName: "Alex M.", driverVerified: true, vehicle: "VW ID.4", plate: "HN-KP 248",
-                 origin: "Hannover Südstadt", destination: "KIBS Hannover", departure: at(7, 30), arrival: at(7, 52),
-                 seats: 4, passengers: ["Mia", "Jonas", "Lea"], price: 2.40, tags: [.geteilt, .guenstig, .gruen], toSchool: true),
+                 origin: school, destination: "Hannover Südstadt", departure: at(13, 30), arrival: at(13, 52),
+                 distanceKm: 6.5, seats: 4, passengers: ["Mia", "Jonas", "Lea"], price: 2.40,
+                 tags: [.geteilt, .guenstig, .gruen]),
             Ride(id: UUID(), driverName: "Sabine W.", driverVerified: true, vehicle: "Renault Zoe", plate: "H-SW 101",
-                 origin: "Linden", destination: "KIBS Hannover", departure: at(7, 20), arrival: at(7, 45),
-                 seats: 3, passengers: ["Tom"], price: 2.80, tags: [.geteilt, .elektro, .gruen], toSchool: true),
-            Ride(id: UUID(), driverName: "Alex M.", driverVerified: true, vehicle: "VW ID.4", plate: "HN-KP 248",
-                 origin: "KIBS Hannover", destination: "Hannover Südstadt", departure: at(15, 30), arrival: at(15, 52),
-                 seats: 4, passengers: ["Mia"], price: 2.40, tags: [.geteilt, .guenstig, .gruen], toSchool: false),
+                 origin: school, destination: "Linden", departure: at(15, 20), arrival: at(15, 45),
+                 distanceKm: 8, seats: 3, passengers: ["Tom"], price: 2.80, tags: [.geteilt, .elektro, .gruen]),
             Ride(id: UUID(), driverName: "Jürgen P.", driverVerified: true, vehicle: "Skoda Octavia", plate: "H-JP 77",
-                 origin: "KIBS Hannover", destination: "Döhren", departure: at(13, 15), arrival: at(13, 40),
-                 seats: 3, passengers: [], price: 3.10, tags: [.geteilt, .ruhig], toSchool: false)
+                 origin: school, destination: "Döhren", departure: at(15, 30), arrival: at(15, 55),
+                 distanceKm: 7, seats: 3, passengers: [], price: 3.10, tags: [.geteilt, .ruhig])
         ]
     }
 }

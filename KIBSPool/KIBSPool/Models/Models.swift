@@ -13,30 +13,44 @@ struct User: Identifiable, Codable, Hashable {
 }
 
 enum TransportMode: String, Codable, CaseIterable, Identifiable {
-    case pool = "Mitfahrgelegenheit"
-    case bike = "Fahrrad"
     case walk = "Zu Fuß"
-    case bus = "Bus & Bahn"
+    case bike = "Fahrrad"
+    case scooter = "E-Scooter"
+    case bus = "Bus"
+    case train = "Bahn"
+    case pool = "Mitfahrgelegenheit"
     case car = "Elterntaxi"
     var id: String { rawValue }
+
+    /// Referenz für „gespart“: allein im Auto.
+    static let baselineGramsPerKm = 170.0
 
     var symbol: String {
         switch self {
         case .pool: "person.3.fill"
         case .bike: "bicycle"
         case .walk: "figure.walk"
+        case .scooter: "scooter"
         case .bus: "bus"
+        case .train: "tram.fill"
         case .car: "car.fill"
         }
     }
-    /// Grobe Emission in g CO2 je Person und Fahrt (Schulweg ~5 km).
-    var gramsCO2: Int {
+    /// Grobe Emission in g CO₂ je Person und Kilometer.
+    var gramsPerKm: Double {
         switch self {
-        case .pool: 400
-        case .bike, .walk: 0
-        case .bus: 300
-        case .car: 1200
+        case .walk, .bike: 0
+        case .scooter: 20
+        case .train: 40
+        case .pool: 60
+        case .bus: 80
+        case .car: 170
         }
+    }
+
+    /// Gespartes CO₂ in kg gegenüber einer Einzelfahrt im Auto.
+    func savedKg(km: Double) -> Double {
+        max(0, Self.baselineGramsPerKm - gramsPerKm) * km / 1000
     }
 }
 
@@ -55,11 +69,11 @@ struct Ride: Identifiable, Codable, Hashable {
     var destination: String
     var departure: Date
     var arrival: Date
+    var distanceKm: Double
     var seats: Int
     var passengers: [String]
     var price: Double
     var tags: [RideTag]
-    var toSchool: Bool
     var isOwn: Bool = false
 
     var freeSeats: Int { max(0, seats - passengers.count) }
@@ -69,6 +83,9 @@ struct TripLog: Identifiable, Codable {
     let id: UUID
     var date: Date
     var mode: TransportMode
+    var distanceKm: Double
+
+    var savedKg: Double { mode.savedKg(km: distanceKm) }
 }
 
 struct AppNotification: Identifiable, Codable {
