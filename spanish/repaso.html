@@ -1,0 +1,1621 @@
+<title>Repaso</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one study column (max 760px) under a slim app bar; tab bar docks to the bottom on phones.
+   Signature: azulejo-style tiles that fill in as an item climbs the mastery ladder. */
+:root {
+  --paper: #F3F5FA;
+  --surface: #FFFFFF;
+  --sunk: #E9EDF6;
+  --ink: #131A2E;
+  --muted: #586282;
+  --line: #D9DFEC;
+  --cobalt: #1F4AA8;
+  --cobalt-ink: #FFFFFF;
+  --cobalt-soft: #E2E9F9;
+  --saffron: #D9930F;
+  --saffron-soft: #FCEFD2;
+  --ok: #17784E;
+  --ok-soft: #DAF1E5;
+  --bad: #B93A33;
+  --bad-soft: #FAE1DE;
+  --tile-empty: #DCE2EF;
+  --shadow: 0 1px 2px rgba(19,26,46,.06), 0 6px 20px rgba(19,26,46,.06);
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 14px;
+  --r-sm: 9px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0D1222; --surface: #151C32; --sunk: #0F1529; --ink: #E7EBF6; --muted: #98A2C1; --line: #263051;
+    --cobalt: #86A6F7; --cobalt-ink: #0D1222; --cobalt-soft: #1C2950; --saffron: #F0B444; --saffron-soft: #3A2C10;
+    --ok: #52C892; --ok-soft: #10301F; --bad: #F2847B; --bad-soft: #3B1A19; --tile-empty: #26304F;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0D1222; --surface: #151C32; --sunk: #0F1529; --ink: #E7EBF6; --muted: #98A2C1; --line: #263051;
+  --cobalt: #86A6F7; --cobalt-ink: #0D1222; --cobalt-soft: #1C2950; --saffron: #F0B444; --saffron-soft: #3A2C10;
+  --ok: #52C892; --ok-soft: #10301F; --bad: #F2847B; --bad-soft: #3B1A19; --tile-empty: #26304F;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.6rem, 4.5vw, 2.2rem); font-weight: 750; }
+h2 { font-size: 1.25rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; border-radius: 6px; }
+.eyebrow { font-size: .74rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+/* App bar */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.bar-in { max-width: 760px; margin: 0 auto; display: flex; align-items: center; gap: 16px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; text-decoration: none; color: var(--ink); margin-right: auto; }
+.mark { width: 26px; height: 26px; border-radius: 6px; flex: none;
+  background:
+    radial-gradient(circle at 50% 50%, var(--saffron) 0 3px, transparent 3.5px),
+    conic-gradient(from 45deg, var(--cobalt) 0 25%, var(--cobalt-soft) 0 50%, var(--cobalt) 0 75%, var(--cobalt-soft) 0);
+}
+.tabs { display: flex; gap: 4px; }
+.tab { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; text-decoration: none; color: var(--muted); font-weight: 700; font-size: .93rem; border: 0; background: none; cursor: pointer; }
+.tab:hover { color: var(--ink); background: var(--sunk); }
+.tab[aria-current="page"] { color: var(--cobalt); background: var(--cobalt-soft); }
+.tab svg { width: 18px; height: 18px; flex: none; }
+.sync { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.sync i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.sync.cloud i { background: var(--ok); }
+
+main {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .bar .tabs, .bar .sync { display: none; }
+  .dock {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .dock .tab { flex-direction: column; gap: 2px; font-size: .72rem; padding: 6px 4px; border-radius: 10px; justify-content: center; }
+  main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  body.in-session .dock { display: none; }
+  body.in-session main { padding-bottom: 32px; }
+}
+@media (min-width: 641px) { .dock { display: none; } }
+
+/* Surfaces */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.card.flat { box-shadow: none; }
+.card.lift { box-shadow: var(--shadow); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } .grid3 { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 700; cursor: pointer; text-decoration: none; transition: transform .08s ease, background .15s ease; }
+.btn:hover { background: var(--sunk); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--cobalt); border-color: var(--cobalt); color: var(--cobalt-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.big { min-height: 54px; font-size: 1.05rem; padding: 12px 26px; }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--muted); }
+.btn.ghost:hover { color: var(--ink); background: var(--sunk); }
+.btn.danger { color: var(--bad); }
+.btn.sm { min-height: 34px; padding: 6px 12px; font-size: .88rem; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn svg { width: 18px; height: 18px; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: .8rem; font-weight: 700; background: var(--sunk); color: var(--muted); white-space: nowrap; }
+.pill.go { background: var(--ok-soft); color: var(--ok); }
+.pill.steady { background: var(--saffron-soft); color: var(--saffron); }
+.pill.hold { background: var(--bad-soft); color: var(--bad); }
+.pill.blue { background: var(--cobalt-soft); color: var(--cobalt); }
+
+/* Tile meter: 5 tiles = the mastery ladder */
+.tiles { display: inline-grid; grid-auto-flow: column; gap: 3px; }
+.tiles i { width: 10px; height: 10px; border-radius: 2.5px; background: var(--tile-empty); display: block; }
+.tiles i.on { background: var(--cobalt); }
+.tiles i.gold { background: var(--saffron); }
+.tiles.lg i { width: 16px; height: 16px; border-radius: 4px; }
+
+.meter { height: 8px; border-radius: 99px; background: var(--tile-empty); overflow: hidden; display: flex; }
+.meter b { display: block; height: 100%; background: var(--cobalt); }
+.meter b.gold { background: var(--saffron); }
+
+/* Home */
+.today { background: var(--cobalt); color: var(--cobalt-ink); border: 0; position: relative; overflow: hidden; }
+.today::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; opacity: .18; pointer-events: none;
+  background:
+    radial-gradient(circle, currentColor 0 7px, transparent 7.5px) 0 0/60px 60px,
+    conic-gradient(from 45deg, currentColor 0 25%, transparent 0 50%, currentColor 0 75%, transparent 0) 0 0/60px 60px; }
+.today .eyebrow, .today .muted { color: inherit; opacity: .8; }
+.today .btn.primary { background: var(--cobalt-ink); color: var(--cobalt); border-color: var(--cobalt-ink); }
+.today .btn { border-color: rgba(255,255,255,.35); background: transparent; color: inherit; }
+:root[data-theme="dark"] .today .btn:not(.primary) { border-color: rgba(13,18,34,.3); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .today .btn:not(.primary) { border-color: rgba(13,18,34,.3); } }
+.today .btn:not(.primary):hover { background: rgba(127,127,127,.15); }
+.stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat .v { font-family: var(--f-display); font-size: 1.6rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat .k { font-size: .8rem; color: var(--muted); }
+.banner { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--r); background: var(--saffron-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--saffron) 35%, transparent); }
+.banner .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.ladder { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 6px; }
+.ladder div { background: var(--sunk); border-radius: var(--r-sm); padding: 10px 8px; display: flex; flex-direction: column; gap: 4px; font-size: .8rem; min-width: 0; }
+.ladder b { font-size: .85rem; }
+@media (max-width: 560px) { .ladder { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+
+/* Lists */
+.list { display: flex; flex-direction: column; }
+.li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); min-width: 0; }
+.li:first-child { border-top: 0; }
+.li .grow { flex: 1; min-width: 0; }
+.li .es { font-weight: 700; overflow-wrap: anywhere; }
+.li .mean { color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
+
+/* Theme chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 14px; border-radius: var(--r); border: 1.5px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; min-width: 150px; flex: 1 1 200px; max-width: 100%; }
+.chip:hover { border-color: var(--cobalt); }
+.chip[aria-pressed="true"] { border-color: var(--cobalt); background: var(--cobalt-soft); box-shadow: inset 0 0 0 1px var(--cobalt); }
+.chip .t { font-weight: 700; overflow-wrap: anywhere; }
+.chip .meter { width: 100%; }
+.chip .s { font-size: .8rem; color: var(--muted); }
+
+/* Session */
+.s-top { display: flex; align-items: center; gap: 12px; }
+.s-top .meter { flex: 1; height: 10px; }
+.icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--sunk); color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn:hover { color: var(--ink); }
+.icon-btn svg { width: 20px; height: 20px; }
+.qcard { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(20px, 5vw, 32px); display: flex; flex-direction: column; gap: 18px; box-shadow: var(--shadow); min-width: 0; }
+.qkind { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.prompt { font-family: var(--f-display); font-size: clamp(1.6rem, 6vw, 2.3rem); font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.prompt.sm { font-size: clamp(1.2rem, 4.6vw, 1.55rem); font-weight: 650; }
+.prompt .gap { display: inline-block; min-width: 3.2em; border-bottom: 3px solid var(--saffron); height: 1em; vertical-align: baseline; }
+.sub { color: var(--muted); }
+.speak { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--surface); color: var(--cobalt); display: inline-grid; place-items: center; cursor: pointer; flex: none; }
+.speak:hover { background: var(--cobalt-soft); }
+.speak svg { width: 20px; height: 20px; }
+.speak.huge { width: 84px; height: 84px; }
+.speak.huge svg { width: 36px; height: 36px; }
+.opts { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+@media (max-width: 520px) { .opts { grid-template-columns: 1fr; } }
+.opt { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; border-radius: var(--r); border: 1.5px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 700; min-height: 56px; overflow-wrap: anywhere; }
+.opt:hover:not([disabled]) { border-color: var(--cobalt); background: var(--cobalt-soft); }
+.opt kbd { font-family: var(--f-mono); font-size: .75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; flex: none; }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); }
+.opt[disabled] { cursor: default; }
+.answer { width: 100%; font-size: 1.25rem; padding: 14px 16px; border-radius: var(--r); border: 2px solid var(--line); background: var(--sunk); outline: none; }
+.answer:focus { border-color: var(--cobalt); background: var(--surface); }
+textarea.answer { min-height: 96px; resize: vertical; font-size: 1.1rem; }
+.accents { display: flex; flex-wrap: wrap; gap: 6px; }
+.accents button { min-width: 40px; height: 38px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-size: 1.05rem; cursor: pointer; }
+.accents button:hover { background: var(--cobalt-soft); }
+.hint { font-family: var(--f-mono); letter-spacing: .12em; color: var(--muted); font-size: 1.05rem; overflow-wrap: anywhere; }
+.lesson { white-space: pre-wrap; line-height: 1.6; overflow-wrap: anywhere; }
+.examples { display: flex; flex-direction: column; gap: 8px; }
+.ex { padding: 10px 14px; border-radius: var(--r-sm); background: var(--sunk); min-width: 0; }
+.ex b { display: block; overflow-wrap: anywhere; }
+.ex span { color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
+
+.fb { border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; border: 1.5px solid transparent; animation: rise .18s ease-out; }
+.fb.right { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.fb.almost { background: var(--saffron-soft); border-color: color-mix(in srgb, var(--saffron) 40%, transparent); }
+.fb.wrong { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+.fb h3 { font-size: 1.2rem; }
+.fb.right h3 { color: var(--ok); }
+.fb.almost h3 { color: var(--saffron); }
+.fb.wrong h3 { color: var(--bad); }
+.fb .correct { font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.fb s { color: var(--muted); }
+.fb .ai { white-space: pre-wrap; background: var(--surface); border-radius: var(--r-sm); padding: 12px 14px; font-size: .95rem; border: 1px solid var(--line); }
+@keyframes rise { from { transform: translateY(6px); opacity: .4; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .fb { animation: none; } .btn { transition: none; } }
+
+/* Forms */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field label { font-weight: 700; font-size: .9rem; }
+.input, select.input, textarea.input { width: 100%; padding: 11px 13px; border-radius: var(--r-sm); border: 1.5px solid var(--line); background: var(--surface); }
+textarea.input { min-height: 160px; resize: vertical; }
+.input:focus { border-color: var(--cobalt); outline: none; }
+.drop { border: 2px dashed var(--line); border-radius: var(--r); padding: 28px 18px; text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; cursor: pointer; background: var(--sunk); }
+.drop.over { border-color: var(--cobalt); background: var(--cobalt-soft); }
+.drop svg { width: 34px; height: 34px; color: var(--cobalt); }
+.files { display: flex; flex-direction: column; gap: 6px; }
+.file { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--sunk); border-radius: var(--r-sm); font-size: .92rem; min-width: 0; }
+.file span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seg { display: inline-flex; background: var(--sunk); padding: 4px; border-radius: 999px; gap: 2px; flex-wrap: wrap; }
+.seg button { border: 0; background: none; padding: 8px 14px; border-radius: 999px; font-weight: 700; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.edit-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+.edit-row:first-child { border-top: 0; }
+.edit-row .input { padding: 8px 10px; }
+@media (max-width: 520px) { .edit-row { grid-template-columns: minmax(0,1fr) auto; } .edit-row .input:nth-child(2) { grid-column: 1; grid-row: 2; } }
+.progress-log { font-size: .9rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.spinner { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--line); border-top-color: var(--cobalt); animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
+details.how summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+details.how summary::-webkit-details-marker { display: none; }
+details.how summary::after { content: "+"; font-family: var(--f-mono); color: var(--muted); font-size: 1.2rem; }
+details.how[open] summary::after { content: "–"; }
+.score-big { font-family: var(--f-display); font-size: 3.4rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: .92rem; z-index: 50; max-width: calc(100% - 32px); text-align: center; }
+@media (max-width: 640px) { .toast { bottom: calc(88px + env(safe-area-inset-bottom, 0px)); } body.in-session .toast { bottom: calc(24px + env(safe-area-inset-bottom, 0px)); } }
+.confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 10px 12px; border-radius: var(--r-sm); background: var(--bad-soft); }
+.empty { text-align: center; padding: 36px 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.splash { display: grid; place-items: center; min-height: 50vh; gap: 12px; color: var(--muted); }
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="#home"><span class="mark" aria-hidden="true"></span>Repaso</a>
+    <nav class="tabs" aria-label="Main" id="tabs-top"></nav>
+    <span class="sync" id="sync"><i></i><span>This browser</span></span>
+  </div>
+</header>
+<main id="view"><div class="splash"><span class="spinner"></span><span>Loading your progress…</span></div></main>
+<nav class="dock" aria-label="Main" id="tabs-dock"></nav>
+<div class="toast" id="toast" hidden></div>
+<input type="file" id="file-input" multiple hidden accept="image/*,.pdf,.docx,.pptx,.txt,.md,.csv,.rtf,.html,.htm">
+
+<script>
+"use strict";
+/* ============================================================
+   Utilities
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const rid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+const MIN = 6e4, HOUR = 36e5, DAY = 864e5;
+const dayKey = (t = Date.now()) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pct = x => Math.round(x * 100) + "%";
+const plural = (n, w, p = w + "s") => `${n} ${n === 1 ? w : p}`;
+const chunk = (a, n) => { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+function when(ms) {
+  if (ms <= 0) return "now";
+  if (ms < HOUR) return `in ${Math.max(1, Math.round(ms / MIN))} min`;
+  if (ms < DAY * 1.5) return "tomorrow";
+  return `in ${Math.round(ms / DAY)} days`;
+}
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 2800);
+}
+const ICON = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+  themes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/></svg>',
+  library: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2.5z"/><path d="M8 7h7M8 11h5"/></svg>',
+  add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  speak: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 8a4 4 0 0 1 0 8"/><path d="M12 12v9M8.5 15.5L12 12l3.5 3.5"/></svg>',
+};
+
+/* ============================================================
+   Answer checking
+   ============================================================ */
+const norm = s => String(s ?? "").normalize("NFC").toLowerCase()
+  .replace(/[¿¡?!.,;:"“”«»()\[\]…]/g, " ").replace(/[’`´]/g, "'").replace(/\s+/g, " ").trim();
+const bare = s => norm(s).normalize("NFD").replace(/[̀-ͯ]/g, "");
+const ARTICLES = ["el", "la", "los", "las", "un", "una", "unos", "unas"];
+const dropArticle = s => { const w = norm(s).split(" "); return w.length > 1 && ARTICLES.includes(w[0]) ? w.slice(1).join(" ") : w.join(" "); };
+function lev(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 3;
+  const d = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = d[0]; d[0] = i;
+    for (let j = 1; j <= b.length; j++) { const t = d[j]; d[j] = Math.min(d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = t; }
+  }
+  return d[b.length];
+}
+function variants(answers) {
+  const out = new Set();
+  for (const raw of answers) {
+    if (!raw) continue;
+    const a = String(raw).trim(); out.add(a);
+    // "el/la estudiante" -> "el estudiante", "la estudiante"; "rojo/a" -> "rojo", "roja"
+    const m = a.match(/^(\S+)\/(\S+)\s+(.+)$/);
+    if (m) { out.add(`${m[1]} ${m[3]}`); out.add(`${m[2]} ${m[3]}`); }
+    const g = a.match(/^(.*\S)o\/a$/);
+    if (g) { out.add(g[1] + "o"); out.add(g[1] + "a"); }
+    if (/\s\/\s|\s*\/\s*/.test(a) && !m && !g) a.split("/").forEach(p => p.trim() && out.add(p.trim()));
+    // "(se) llamar" style optional parts
+    if (/\(.+?\)/.test(a)) { out.add(a.replace(/\(.+?\)/g, "").replace(/\s+/g, " ").trim()); out.add(a.replace(/[()]/g, "")); }
+  }
+  return [...out];
+}
+/* Returns {r: "right"|"accent"|"almost"|"wrong", why, target} */
+function check(given, answers) {
+  const g = norm(given);
+  const list = variants(answers);
+  if (!g) return { r: "wrong", target: list[0] };
+  for (const a of list) if (norm(a) === g) return { r: "right", target: a };
+  for (const a of list) if (bare(a) === bare(g)) return { r: "accent", target: a, why: "Right word, but check the accents." };
+  for (const a of list) {
+    const na = norm(a), da = dropArticle(a), dg = dropArticle(given);
+    if (da !== na && bare(da) === bare(g)) return { r: "almost", target: a, why: "Don't forget the article. Nouns are learned with el / la." };
+    if (da !== na && dg !== g && bare(da) === bare(dg)) return { r: "almost", target: a, why: "Wrong article. Check if the word is masculine or feminine." };
+  }
+  for (const a of list) { const b = bare(a); if (b.length >= 5 && lev(b, bare(g)) === 1) return { r: "almost", target: a, why: "One letter off. Look closely at the spelling." }; }
+  return { r: "wrong", target: list[0] };
+}
+const isOk = r => r === "right" || r === "accent";
+
+/* ============================================================
+   State + storage (Claude account when available, else this browser)
+   ============================================================ */
+const LS = "repaso.v1";
+const defaultMeta = () => ({
+  settings: { lang: "English", goal: 20, audio: true },
+  streak: { n: 0, last: null }, days: {}, recent: [], tests: [], created: Date.now(), seeded: false,
+});
+let S = { meta: defaultMeta(), units: {}, prog: {} };
+
+const store = {
+  db: null, uid: null, mode: "local", dirty: new Set(), timer: null, busy: false, failed: false,
+  loadLocal() {
+    try { const raw = localStorage.getItem(LS); if (raw) { const d = JSON.parse(raw); if (d && d.meta) S = { meta: { ...defaultMeta(), ...d.meta }, units: d.units || {}, prog: d.prog || {} }; return !!raw; } } catch (e) {}
+    return false;
+  },
+  saveLocal() { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} },
+  async init() {
+    this.loadLocal();
+    if (!window.claude || typeof window.claude.use !== "function") return;
+    try {
+      const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+      if (!db || !user) return;
+      const id = await user.id();
+      if (!id) return;
+      this.db = db; this.uid = id;
+      const snap = await db.collection("data/users/" + id).get();
+      if (snap.empty) {
+        this.mode = "cloud";
+        if (Object.keys(S.units).length) { this.dirty.add("meta"); for (const u in S.units) { this.dirty.add("unit_" + u); this.dirty.add("prog_" + u); } this.flushSoon(); }
+        return;
+      }
+      const next = { meta: defaultMeta(), units: {}, prog: {} };
+      for (const doc of snap.docs) {
+        const d = doc.data(); if (!d) continue;
+        if (doc.id === "meta") next.meta = { ...defaultMeta(), ...JSON.parse(JSON.stringify(d)) };
+        else if (doc.id.startsWith("unit_")) next.units[doc.id.slice(5)] = JSON.parse(JSON.stringify(d));
+        else if (doc.id.startsWith("prog_")) next.prog[doc.id.slice(5)] = JSON.parse(JSON.stringify(d.cards || {}));
+      }
+      S = next; this.mode = "cloud"; this.saveLocal();
+    } catch (e) { this.db = null; this.mode = "local"; }
+  },
+  mark(...keys) { keys.forEach(k => this.dirty.add(k)); this.saveLocal(); this.flushSoon(); },
+  flushSoon() { if (!this.db) return; clearTimeout(this.timer); this.timer = setTimeout(() => this.flush(), 1500); },
+  async flush() {
+    if (!this.db || this.busy) return;
+    this.busy = true;
+    try {
+      const col = this.db.collection("data/users/" + this.uid);
+      while (this.dirty.size) {
+        const key = this.dirty.values().next().value; this.dirty.delete(key);
+        const ref = col.doc(key);
+        try {
+          if (key === "meta") await ref.set(S.meta);
+          else if (key.startsWith("unit_")) { const u = S.units[key.slice(5)]; u ? await ref.set(u) : await ref.delete(); }
+          else if (key.startsWith("prog_")) { const p = S.prog[key.slice(5)]; p ? await ref.set({ cards: p }) : await ref.delete(); }
+          this.failed = false;
+        } catch (e) {
+          if (e && e.code === "unavailable") { this.dirty.add(key); await new Promise(r => setTimeout(r, 1500 + Math.random() * 1500)); }
+          else if (e && e.code === "quota_exceeded") { toast("Your Claude storage is full. Delete an old unit to keep saving."); this.failed = true; }
+          else { this.failed = true; }
+        }
+      }
+    } finally { this.busy = false; renderSync(); }
+  },
+};
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") store.flush(); });
+
+/* ============================================================
+   Cards: every vocab item and every grammar exercise is one card
+   ============================================================ */
+let _cards = null, _byId = null;
+function invalidate() { _cards = null; _byId = null; }
+function themesOf(unit, item) {
+  const t = (item.themes || []).filter(Boolean);
+  if (t.length) return t;
+  return unit.themes && unit.themes.length ? [unit.themes[0]] : [unit.title || "General"];
+}
+function cardsOfUnit(u) {
+  const vocab = (u.vocab || []).map(v => ({ id: "v" + v.id, uid: u.id, kind: "vocab", v, themes: themesOf(u, v) }));
+  const gram = [];
+  (u.grammar || []).forEach(g => (g.exercises || []).forEach(x => gram.push({ id: "x" + x.id, uid: u.id, kind: "gram", g, x, themes: themesOf(u, g) })));
+  // Teaching order: six words, then three grammar exercises, repeat.
+  const out = []; const vc = chunk(vocab, 6), gc = chunk(gram, 3);
+  for (let i = 0; i < Math.max(vc.length, gc.length); i++) out.push(...(vc[i] || []), ...(gc[i] || []));
+  return out;
+}
+function allCards() {
+  if (!_cards) {
+    _cards = Object.values(S.units).sort((a, b) => a.created - b.created).flatMap(cardsOfUnit);
+    _byId = new Map(_cards.map(c => [c.id, c]));
+  }
+  return _cards;
+}
+const cardById = id => (allCards(), _byId.get(id));
+const st = c => (S.prog[c.uid] || {})[c.id] || null;
+function setSt(c, s) { (S.prog[c.uid] ||= {})[c.id] = s; return s; }
+
+/* The ladder. Box 0-1: recognise (multiple choice). 2: spell with a hint. 3+: recall from memory.
+   Mastered = box 5. Multiple choice alone can never push past box 2, so guessing can't fake mastery. */
+const MAXB = 7, MASTER = 5;
+const INTERVAL = [0, 5 * MIN, 20 * HOUR, 2 * DAY, 4 * DAY, 8 * DAY, 16 * DAY, 35 * DAY];
+const LADDER = [
+  ["See it", "Meet the word with an example"],
+  ["Recognise", "Pick the meaning"],
+  ["Choose", "Pick the Spanish"],
+  ["Spell", "Type it with a hint"],
+  ["Recall", "Type it from memory, in sentences, by ear"],
+  ["Mastered", "Reviews every 1–5 weeks"],
+];
+function tilesFor(b, lg) {
+  let h = `<span class="tiles${lg ? " lg" : ""}" aria-label="Level ${Math.min(b, 5)} of 5">`;
+  for (let i = 1; i <= 5; i++) h += `<i class="${b >= MASTER ? "gold" : b >= i ? "on" : ""}"></i>`;
+  return h + "</span>";
+}
+
+function logAnswer(ok) {
+  const m = S.meta, k = dayKey();
+  m.recent = [...(m.recent || []), ok ? 1 : 0].slice(-40);
+  m.days[k] = (m.days[k] || 0) + 1;
+  if (m.streak.last !== k) {
+    const y = dayKey(Date.now() - DAY);
+    m.streak = { n: m.streak.last === y ? m.streak.n + 1 : 1, last: k };
+  }
+  const keys = Object.keys(m.days).sort(); if (keys.length > 90) keys.slice(0, keys.length - 90).forEach(x => delete m.days[x]);
+}
+
+function applyAnswer(c, result, o = {}) {
+  const t = Date.now();
+  let s = st(c) || setSt(c, { b: 0, d: t, s: 0, c: 0, l: 0, t });
+  const wasDue = s.d <= t;
+  const before = s.b;
+  s.s++; s.t = t;
+  if (isOk(result)) {
+    s.c++;
+    let promote = s.b < 2 || wasDue;
+    if (o.mc && s.b >= 2) promote = false;
+    if (promote) {
+      s.b = Math.min(MAXB, s.b + 1, Math.max(s.b, o.cap ?? MAXB));
+      s.d = t + INTERVAL[s.b];
+    }
+  } else if (result === "almost") {
+    s.d = t;
+  } else {
+    s.l++; s.b = Math.max(0, s.b - 2); s.d = t;
+  }
+  logAnswer(isOk(result));
+  store.mark("prog_" + c.uid, "meta");
+  return { before, after: s.b };
+}
+
+function pacing() {
+  const r = (S.meta.recent || []).slice(-25), n = r.length;
+  const acc = n ? r.reduce((a, b) => a + b, 0) / n : 1;
+  const cards = allCards();
+  const shaky = cards.filter(c => { const s = st(c); return s && s.b < 2; }).length;
+  const fresh = cards.filter(c => !st(c)).length;
+  const base = { acc, n, shaky, fresh };
+  if (n >= 8 && acc < 0.7) return { ...base, level: "hold", newCount: 0, label: "Consolidating", msg: `You got ${pct(acc)} of your last ${n} answers right, so new material is paused until the shaky items stick.` };
+  if (shaky >= 10) return { ...base, level: "hold", newCount: 0, label: "Consolidating", msg: `${shaky} items are still shaky. Clear those first and new material unlocks again.` };
+  if ((n >= 8 && acc < 0.85) || shaky >= 6) return { ...base, level: "steady", newCount: 3, label: "Small steps", msg: `Accuracy ${pct(acc)}. You'll get 3 new items per session while things firm up.` };
+  return { ...base, level: "go", newCount: 6, label: "Ready for new", msg: n ? `Accuracy ${pct(acc)} over your last ${n} answers. You can take on 6 new items per session.` : "Start with a few items. The pace adapts to how your answers go." };
+}
+
+function themeIndex() {
+  const map = new Map();
+  for (const c of allCards()) for (const t of c.themes) {
+    const k = t.trim().toLowerCase(); if (!k) continue;
+    if (!map.has(k)) map.set(k, { key: k, name: t.trim(), cards: [] });
+    map.get(k).cards.push(c);
+  }
+  return [...map.values()].map(th => {
+    const n = th.cards.length;
+    const levelSum = th.cards.reduce((a, c) => a + Math.min(MASTER, st(c)?.b || 0), 0);
+    const mastered = th.cards.filter(c => (st(c)?.b || 0) >= MASTER).length;
+    const seen = th.cards.filter(c => st(c)).length;
+    const due = th.cards.filter(c => { const s = st(c); return s && s.d <= Date.now(); }).length;
+    const last = (S.meta.tests || []).filter(x => x.per && x.per[th.key]).slice(-1)[0];
+    return { ...th, n, mastery: n ? levelSum / (n * MASTER) : 0, mastered, seen, due, last: last ? last.per[th.key] : null, lastAt: last?.at };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+}
+const inThemes = (c, keys) => !keys || c.themes.some(t => keys.includes(t.trim().toLowerCase()));
+
+/* ============================================================
+   Speech
+   ============================================================ */
+const TTS = {
+  ok: "speechSynthesis" in window, voice: null,
+  init() {
+    if (!this.ok) return;
+    const pick = () => { try { const vs = speechSynthesis.getVoices(); this.voice = vs.find(v => /^es[-_]ES/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null; } catch (e) {} };
+    pick(); try { speechSynthesis.addEventListener("voiceschanged", pick); } catch (e) {}
+  },
+  say(text) {
+    if (!this.ok || !S.meta.settings.audio) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = this.voice?.lang || "es-ES"; if (this.voice) u.voice = this.voice; u.rate = 0.88;
+      speechSynthesis.speak(u);
+    } catch (e) {}
+  },
+  get canListen() { return this.ok && !!this.voice && S.meta.settings.audio; },
+};
+
+/* ============================================================
+   Claude (reads uploads, explains mistakes, grades writing)
+   ============================================================ */
+const AI = {
+  fn: null, imgLimits: null, ready: false,
+  async init() {
+    if (!window.claude || typeof window.claude.use !== "function") { this.ready = true; return; }
+    try {
+      this.fn = await claude.use("sample");
+      if (this.fn) { const lim = await this.fn.limits().catch(() => null); this.imgLimits = lim?.images || null; }
+    } catch (e) { this.fn = null; }
+    this.ready = true;
+  },
+  get on() { return !!this.fn && !this.denied; },
+  denied: false,
+  errText(e) {
+    const c = e && e.code;
+    if (c === "not_granted" || c === "sampling_disabled" || c === "not_declared" || c === "capability_disabled" || c === "capability_removed") { this.denied = true; return "Claude isn't allowed for this page, so AI features are off. Word lists still work."; }
+    if (c === "rate_limited") return "Claude is busy or you've hit a usage limit. Wait a bit and try again.";
+    if (c === "prompt_too_large") return "That material is too long for one go. Split it into smaller parts.";
+    if (c === "image_rejected") return "One of the images couldn't be read. Try a JPG or PNG photo.";
+    if (c === "invalid_json") return "Claude's answer came back garbled. Try again.";
+    if (c === "refused") return "Claude couldn't process this material.";
+    if (c === "session_expired") return "Your Claude session expired. Sign in again and reload.";
+    if (c === "cancelled") return "Stopped.";
+    return "Something went wrong talking to Claude. Try again.";
+  },
+};
+const lang = () => S.meta.settings.lang || "English";
+
+function extractPrompt(text, knownThemes, hint, hasImages) {
+  return `You are turning a student's own Spanish class material into study cards. The student had a year of Spanish but remembers little, so be clear and beginner-friendly.
+
+Read the material ${hasImages ? "in the attached images (photos or scans of worksheets, textbook pages or notes)" : "below"}. Extract ONLY vocabulary and grammar that actually appear in it. Do not invent extra words.
+
+Write every meaning, explanation, hint and instruction in ${lang()}. If the material gives translations in another language, translate them into ${lang()}.
+${hint ? `The student says this material is about: ${hint}\n` : ""}${knownThemes.length ? `Reuse these existing theme names where they fit: ${knownThemes.join("; ")}\n` : ""}
+Reply with only JSON in exactly this shape:
+{"title": "short title, e.g. Unidad 3: Mi familia",
+ "themes": ["2-6 short theme names, e.g. Family, Describing people, Present tense: ser"],
+ "vocab": [{"es": "Spanish word or phrase; nouns WITH article (el/la/los/las)", "meaning": "...", "alt": ["other correct Spanish forms"], "pos": "noun|verb|adj|adv|phrase|other", "example_es": "short example sentence (from the material if possible)", "example_meaning": "...", "note": "optional: irregular, gender trap, false friend; else empty", "themes": ["one or two names from themes"]}],
+ "grammar": [{"title": "...", "explanation": "plain explanation for a beginner, 3-7 sentences; conjugation tables as plain text lines like 'yo hablo'", "examples": [{"es": "...", "meaning": "..."}], "themes": ["..."],
+   "exercises": [{"prompt": "a fill-in task with ___ where the answer goes, e.g. 'Yo ___ español. (hablar)'", "answer": "exact Spanish answer for the gap", "accept": ["other correct answers"], "hint": "short hint"}]}]}
+
+Rules: give each grammar point 6-10 exercises whose answers are short (1-4 words). Split pairs like "el padre / la madre" into separate vocab items. Skip page numbers, teacher instructions and textbook names. Skip anything unreadable. At most 120 vocab items.
+${text ? `\nMATERIAL:\n"""\n${text}\n"""` : ""}`;
+}
+
+function cleanExtract(raw) {
+  const s = v => (typeof v === "string" ? v.trim() : "");
+  const arr = v => (Array.isArray(v) ? v : []);
+  return {
+    title: s(raw?.title),
+    themes: arr(raw?.themes).map(s).filter(Boolean).slice(0, 8),
+    vocab: arr(raw?.vocab).map(v => ({ es: s(v?.es), meaning: s(v?.meaning), alt: arr(v?.alt).map(s).filter(Boolean), pos: s(v?.pos) || "other", ex: s(v?.example_es), exm: s(v?.example_meaning), note: s(v?.note), themes: arr(v?.themes).map(s).filter(Boolean) })).filter(v => v.es && v.meaning),
+    grammar: arr(raw?.grammar).map(g => ({ title: s(g?.title), expl: s(g?.explanation), examples: arr(g?.examples).map(e => ({ es: s(e?.es), meaning: s(e?.meaning) })).filter(e => e.es), themes: arr(g?.themes).map(s).filter(Boolean), exercises: arr(g?.exercises).map(x => ({ prompt: s(x?.prompt), answer: s(x?.answer), accept: arr(x?.accept).map(s).filter(Boolean), hint: s(x?.hint) })).filter(x => x.prompt && x.answer) })).filter(g => g.title && g.exercises.length),
+  };
+}
+function mergeExtracts(list) {
+  const out = { title: "", themes: [], vocab: [], grammar: [] };
+  const seenV = new Set(), seenG = new Set(), seenT = new Set();
+  for (const r of list) {
+    if (!out.title && r.title) out.title = r.title;
+    for (const t of r.themes) { const k = t.toLowerCase(); if (!seenT.has(k)) { seenT.add(k); out.themes.push(t); } }
+    for (const v of r.vocab) { const k = bare(v.es); if (!seenV.has(k)) { seenV.add(k); out.vocab.push(v); } }
+    for (const g of r.grammar) { const k = bare(g.title); if (!seenG.has(k)) { seenG.add(k); out.grammar.push(g); } else { const ex = out.grammar.find(x => bare(x.title) === k); ex.exercises.push(...g.exercises); } }
+  }
+  out.themes = out.themes.slice(0, 8);
+  return out;
+}
+
+/* ---------- File reading ---------- */
+function loadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("load")); document.head.appendChild(s); });
+}
+async function toJpeg(file, max = 1800) {
+  let bmp;
+  try { bmp = await createImageBitmap(file); }
+  catch (e) {
+    bmp = await new Promise((res, rej) => { const img = new Image(); img.onload = () => res(img); img.onerror = rej; img.src = URL.createObjectURL(file); });
+  }
+  const w = bmp.width, h = bmp.height, k = Math.min(1, max / Math.max(w, h));
+  const cv = document.createElement("canvas"); cv.width = Math.round(w * k); cv.height = Math.round(h * k);
+  const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(bmp, 0, 0, cv.width, cv.height);
+  return await new Promise(r => cv.toBlob(r, "image/jpeg", 0.86));
+}
+/* Minimal zip reader for .docx / .pptx (uses the browser's own deflate) */
+async function unzip(buf, wanted) {
+  const dv = new DataView(buf), u8 = new Uint8Array(buf), out = {};
+  let eocd = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error("zip");
+  const count = dv.getUint16(eocd + 10, true); let p = dv.getUint32(eocd + 16, true);
+  const dec = new TextDecoder();
+  for (let n = 0; n < count; n++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+    const nlen = dv.getUint16(p + 28, true), elen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+    const name = dec.decode(u8.subarray(p + 46, p + 46 + nlen));
+    p += 46 + nlen + elen + clen;
+    if (!wanted(name)) continue;
+    const start = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true);
+    const data = u8.subarray(start, start + csize);
+    if (method === 0) out[name] = dec.decode(data);
+    else if (method === 8) out[name] = await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+  }
+  return out;
+}
+const xmlText = (xml, para, run) => xml.replace(new RegExp(`</${para}>`, "g"), "\n").replace(new RegExp(`<${run}(?:\\s[^>]*)?>([^<]*)</${run}>`, "g"), "\u0001$1\u0002").replace(/<[^>]+>/g, "").replace(/[^\u0001\u0002\n]*\u0001([^\u0002]*)\u0002/g, "$1")
+  .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+async function readOffice(file) {
+  const buf = await file.arrayBuffer();
+  if (/\.docx$/i.test(file.name)) {
+    const z = await unzip(buf, n => n === "word/document.xml");
+    return xmlText(z["word/document.xml"] || "", "w:p", "w:t");
+  }
+  const z = await unzip(buf, n => /^ppt\/slides\/slide\d+\.xml$/.test(n));
+  return Object.keys(z).sort((a, b) => parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]))
+    .map((k, i) => `--- Slide ${i + 1} ---\n` + xmlText(z[k], "a:p", "a:t")).join("\n");
+}
+async function readPdf(file, onNote) {
+  if (!window.pdfjsLib) {
+    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+  const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false }).promise;
+  const pages = Math.min(pdf.numPages, 40); let text = "";
+  for (let i = 1; i <= pages; i++) {
+    const pg = await pdf.getPage(i); const tc = await pg.getTextContent();
+    text += tc.items.map(it => it.str + (it.hasEOL ? "\n" : " ")).join("") + "\n\n";
+  }
+  if (text.replace(/\s/g, "").length > 60 * pages) return { text, images: [] };
+  // Scanned PDF: send page pictures instead
+  onNote?.(`${file.name} looks scanned, reading it as pictures`);
+  const images = [];
+  for (let i = 1; i <= Math.min(pages, 12); i++) {
+    const pg = await pdf.getPage(i); const vp = pg.getViewport({ scale: 1.6 });
+    const cv = document.createElement("canvas"); cv.width = vp.width; cv.height = vp.height;
+    await pg.render({ canvasContext: cv.getContext("2d"), viewport: vp }).promise;
+    images.push(await new Promise(r => cv.toBlob(r, "image/jpeg", 0.85)));
+  }
+  return { text: "", images };
+}
+function chunkText(t, size = 7000) {
+  const out = []; let cur = "";
+  for (const para of t.split(/\n{2,}/)) {
+    if ((cur + "\n\n" + para).length > size && cur) { out.push(cur); cur = ""; }
+    if (para.length > size) { for (let i = 0; i < para.length; i += size) out.push(para.slice(i, i + size)); }
+    else cur = cur ? cur + "\n\n" + para : para;
+  }
+  if (cur.trim()) out.push(cur);
+  return out.filter(x => x.trim().length > 20);
+}
+function parseWordList(text) {
+  const out = [];
+  for (const line of text.split(/\r?\n/)) {
+    const l = line.trim(); if (!l) continue;
+    const m = l.match(/^(.+?)\s*(?:\t| = | – | — | - | : |;|=)\s*(.+)$/);
+    if (m && m[1].trim() && m[2].trim()) out.push({ es: m[1].trim(), meaning: m[2].trim(), alt: [], pos: "other", ex: "", exm: "", note: "", themes: [] });
+  }
+  return out;
+}
+
+/* ============================================================
+   Example unit (shown until the student adds their own)
+   ============================================================ */
+function exampleUnit() {
+  const V = (es, meaning, pos, ex, exm, themes, note = "") => ({ id: rid(), es, meaning, alt: [], pos, ex, exm, note, themes });
+  const X = (prompt, answer, hint, accept = []) => ({ id: rid(), prompt, answer, accept, hint });
+  return {
+    id: "example", sample: true, created: 1, title: "Example: En el instituto", lang: "English",
+    themes: ["School", "Classroom phrases", "Present tense: -ar verbs"],
+    vocab: [
+      V("el instituto", "the secondary school", "noun", "Voy al instituto en autobús.", "I go to school by bus.", ["School"]),
+      V("la asignatura", "the school subject", "noun", "Mi asignatura favorita es la historia.", "My favourite subject is history.", ["School"]),
+      V("el horario", "the timetable", "noun", "El horario cambia los viernes.", "The timetable changes on Fridays.", ["School"]),
+      V("los deberes", "the homework", "noun", "Hago los deberes por la tarde.", "I do my homework in the afternoon.", ["School"], "Always plural in Spanish."),
+      V("la profesora", "the (female) teacher", "noun", "La profesora explica muy bien.", "The teacher explains very well.", ["School"]),
+      V("el recreo", "break time", "noun", "En el recreo como un bocadillo.", "At break I eat a sandwich.", ["School"]),
+      V("la pizarra", "the board", "noun", "Escribe la respuesta en la pizarra.", "Write the answer on the board.", ["School"]),
+      V("el cuaderno", "the exercise book", "noun", "Abre el cuaderno, por favor.", "Open your exercise book, please.", ["School"]),
+      V("difícil", "difficult", "adj", "El examen es difícil.", "The exam is difficult.", ["School"]),
+      V("aprobar", "to pass (an exam)", "verb", "Quiero aprobar el examen.", "I want to pass the exam.", ["School"]),
+      V("No entiendo.", "I don't understand.", "phrase", "", "", ["Classroom phrases"]),
+      V("¿Puedo ir al baño?", "Can I go to the toilet?", "phrase", "", "", ["Classroom phrases"]),
+      V("¿Cómo se dice en español?", "How do you say it in Spanish?", "phrase", "", "", ["Classroom phrases"]),
+      V("¿Puede repetir, por favor?", "Can you repeat, please?", "phrase", "", "", ["Classroom phrases"]),
+    ],
+    grammar: [{
+      id: rid(), title: "Present tense of -ar verbs", themes: ["Present tense: -ar verbs"],
+      expl: "Regular -ar verbs drop -ar and add an ending that shows who is doing the action.\n\nhablar (to speak)\nyo hablo\ntú hablas\nél / ella habla\nnosotros hablamos\nvosotros habláis\nellos / ellas hablan\n\nBecause the ending already shows the person, Spanish often leaves out yo, tú and so on: \"Hablo español\" means \"I speak Spanish\".",
+      examples: [{ es: "Estudio matemáticas.", meaning: "I study maths." }, { es: "¿Hablas inglés?", meaning: "Do you speak English?" }, { es: "Ellos escuchan música.", meaning: "They listen to music." }],
+      exercises: [
+        X("Yo ___ español. (hablar)", "hablo", "yo → -o"),
+        X("Tú ___ mucho. (estudiar)", "estudias", "tú → -as"),
+        X("Ella ___ en Madrid. (trabajar)", "trabaja", "él / ella → -a"),
+        X("Nosotros ___ música. (escuchar)", "escuchamos", "nosotros → -amos"),
+        X("Vosotros ___ la televisión. (mirar)", "miráis", "vosotros → -áis"),
+        X("Ellos ___ en el instituto. (estudiar)", "estudian", "ellos → -an"),
+        X("¿Tú ___ inglés? (hablar)", "hablas", "tú → -as"),
+      ],
+    }],
+  };
+}
+function addIds(unit) {
+  unit.vocab.forEach(v => (v.id ||= rid()));
+  unit.grammar.forEach(g => { g.id ||= rid(); g.exercises.forEach(x => (x.id ||= rid())); });
+  return unit;
+}
+
+/* ============================================================
+   Router + shell
+   ============================================================ */
+const TABS = [["home", "Today"], ["themes", "Themes"], ["library", "Library"], ["add", "Add"]];
+let UI = { tab: "home" };
+function renderTabs() {
+  const h = TABS.map(([k, label]) => `<a class="tab" href="#${k}" ${UI.tab === k ? 'aria-current="page"' : ""}>${ICON[k === "home" ? "home" : k]}<span>${label}</span></a>`).join("");
+  $("#tabs-top").innerHTML = h; $("#tabs-dock").innerHTML = h;
+}
+function renderSync() {
+  const el = $("#sync"); if (!el) return;
+  el.classList.toggle("cloud", store.mode === "cloud" && !store.failed);
+  el.querySelector("span").textContent = store.mode === "cloud" ? (store.failed ? "Not saved, retrying" : "Saved to your account") : "Saved in this browser";
+}
+function go(tab) { if (location.hash !== "#" + tab) location.hash = tab; else route(); }
+function route() {
+  const h = location.hash.slice(1);
+  const tab = TABS.some(t => t[0] === h) ? h : (h.startsWith("unit-") ? "unit" : "home");
+  SES = null; TEST = null;
+  UI = { tab: tab === "unit" ? "library" : tab, unit: tab === "unit" ? h.slice(5) : null, sel: UI.sel || [] , add: UI.add };
+  document.body.classList.remove("in-session");
+  render();
+  window.scrollTo(0, 0);
+}
+function render() {
+  renderTabs(); renderSync();
+  const v = $("#view");
+  if (SES) { document.body.classList.add("in-session"); v.innerHTML = viewSession(); afterSession(); return; }
+  if (TEST) { document.body.classList.add("in-session"); v.innerHTML = viewTest(); afterTest(); return; }
+  document.body.classList.remove("in-session");
+  if (UI.testSetup) v.innerHTML = viewTestSetup();
+  else if (UI.unit) v.innerHTML = viewUnit(UI.unit);
+  else v.innerHTML = ({ home: viewHome, themes: viewThemes, library: viewLibrary, add: viewAdd })[UI.tab]();
+  if (UI.tab === "add") afterAdd();
+}
+
+/* ============================================================
+   View: Today
+   ============================================================ */
+function viewHome() {
+  const cards = allCards();
+  const units = Object.values(S.units);
+  if (!units.length) return `<section class="card empty"><h1>Start with your own material</h1><p class="muted">Upload worksheets, photos of your notebook, PDFs or a word list. Repaso turns them into lessons and tests.</p><a class="btn primary big" href="#add">${ICON.add} Add material</a></section>`;
+  const t = Date.now();
+  const due = cards.filter(c => { const s = st(c); return s && s.d <= t; }).length;
+  const p = pacing();
+  const newReady = Math.min(p.newCount, p.fresh);
+  const today = S.meta.days[dayKey()] || 0, goal = S.meta.settings.goal || 20;
+  const mastered = cards.filter(c => (st(c)?.b || 0) >= MASTER).length;
+  const learning = cards.filter(c => { const s = st(c); return s && s.b < MASTER; }).length;
+  const streak = S.meta.streak.last === dayKey() || S.meta.streak.last === dayKey(t - DAY) ? S.meta.streak.n : 0;
+  const headline = due || newReady
+    ? [due ? plural(due, "review") + " due" : "", newReady ? plural(newReady, "new item") + " ready" : ""].filter(Boolean).join(", ")
+    : "All caught up";
+  const sub = due || newReady ? "About " + Math.max(3, Math.round((due + newReady * 3) * 0.25)) + " minutes." : "Nothing is due. Extra practice on your weakest items still helps.";
+  const tricky = cards.filter(c => (st(c)?.l || 0) >= 2).sort((a, b) => st(b).l - st(a).l).slice(0, 5);
+  const themes = themeIndex().sort((a, b) => b.seen - a.seen).slice(0, 4);
+  const hasSample = !!S.units.example;
+  return `
+  ${hasSample ? `<div class="banner"><div class="grow"><b>This is an example unit so you can try things out.</b><span class="small">Add your own worksheets, notes or word lists and Repaso builds lessons from them. Remove the example whenever you like.</span><div class="row"><a class="btn sm primary" href="#add">Add my material</a><button class="btn sm ghost" data-act="del-sample">Remove example</button></div></div></div>` : ""}
+  <section class="card today">
+    <div class="eyebrow">${new Date().toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" })}</div>
+    <h1>${esc(headline)}</h1>
+    <p class="muted">${esc(sub)}</p>
+    <div class="row">
+      ${due || newReady ? `<button class="btn primary big" data-act="start">Start session</button>` : `<button class="btn primary big" data-act="start">Extra practice</button>`}
+      <a class="btn" href="#themes">Pick themes</a>
+    </div>
+  </section>
+  <section class="grid3">
+    <div class="card"><div class="stat"><span class="v num">${today}<span class="muted" style="font-size:1rem">/${goal}</span></span><span class="k">answers today</span></div><div class="meter"><b style="width:${Math.min(100, (today / goal) * 100)}%"></b></div></div>
+    <div class="card"><div class="stat"><span class="v num">${streak}</span><span class="k">day streak</span></div></div>
+    <div class="card"><div class="stat"><span class="v num">${mastered}</span><span class="k">mastered · ${learning} learning</span></div></div>
+  </section>
+  <section class="card">
+    <div class="row between"><h2>Your pace</h2><span class="pill ${p.level}">${esc(p.label)}</span></div>
+    <p>${esc(p.msg)}</p>
+    <p class="small muted">Repaso only adds new material when you're getting most answers right. Mistakes come back a few cards later and you need them right twice in a row before they move on.</p>
+  </section>
+  ${tricky.length ? `<section class="card"><div class="row between"><h2>Tricky items</h2><button class="btn sm" data-act="drill-tricky">Drill these</button></div><div class="list">${tricky.map(c => rowFor(c)).join("")}</div></section>` : ""}
+  <section class="card">
+    <div class="row between"><h2>Themes</h2><a class="btn sm ghost" href="#themes">All themes</a></div>
+    <div class="list">${themes.map(th => `<div class="li"><div class="grow"><div class="es">${esc(th.name)}</div><div class="meter" style="margin-top:6px"><b style="width:${th.mastery * 100}%"></b></div></div><span class="num small muted">${pct(th.mastery)}</span></div>`).join("")}</div>
+  </section>
+  <details class="card how">
+    <summary>How Repaso makes sure you learn it</summary>
+    <div class="ladder">${LADDER.map((l, i) => `<div><span>${tilesFor(i)}</span><b>${l[0]}</b><span class="muted">${l[1]}</span></div>`).join("")}</div>
+    <p class="small">Each item climbs this ladder one step per correct answer. Multiple choice only gets you to step 2; after that you have to type the answer yourself, so guessing can't fake it. Reviews are spaced out further each time you get it right (1, 2, 4, 8, 16 days). A wrong answer drops the item two steps and it comes back in the same session.</p>
+  </details>`;
+}
+function rowFor(c) {
+  const s = st(c);
+  const es = c.kind === "vocab" ? c.v.es : c.x.prompt.replace(/_{2,}/, c.x.answer);
+  const mean = c.kind === "vocab" ? c.v.meaning : c.g.title;
+  return `<div class="li"><div class="grow"><div class="es">${esc(es)}</div><div class="mean">${esc(mean)}</div></div>${tilesFor(s?.b || 0)}</div>`;
+}
+
+/* ============================================================
+   View: Themes (train + assessment)
+   ============================================================ */
+function viewThemes() {
+  const ths = themeIndex();
+  if (!ths.length) return `<section class="card empty"><h1>No themes yet</h1><p class="muted">Themes come from your material. Add some to get started.</p><a class="btn primary" href="#add">Add material</a></section>`;
+  const sel = UI.sel.filter(k => ths.some(t => t.key === k));
+  const selCards = allCards().filter(c => inThemes(c, sel));
+  return `
+  <section class="stack"><h1>Themes</h1><p class="muted">Pick one or more themes, then train them or test yourself like a real assessment.</p></section>
+  <section class="chips">${ths.map(th => `
+    <button class="chip" data-act="toggle-theme" data-k="${esc(th.key)}" aria-pressed="${sel.includes(th.key)}">
+      <span class="t">${esc(th.name)}</span>
+      <span class="meter"><b class="${th.mastery >= 0.95 ? "gold" : ""}" style="width:${th.mastery * 100}%"></b></span>
+      <span class="s">${th.n} items · ${pct(th.mastery)} learned${th.due ? ` · ${th.due} due` : ""}${th.last ? ` · last test ${pct(th.last[0] / th.last[1])}` : ""}</span>
+    </button>`).join("")}
+  </section>
+  <section class="card lift">
+    ${sel.length ? `
+      <div class="row between"><h2>${plural(sel.length, "theme")} selected</h2><button class="btn sm ghost" data-act="clear-themes">Clear</button></div>
+      <p class="muted">${selCards.length} items. ${readiness(selCards)}</p>
+      <div class="row"><button class="btn primary" data-act="train-themes">Train these</button><button class="btn" data-act="test-setup">Take an assessment</button></div>`
+    : `<p class="muted">Tap themes above to select them.</p>`}
+  </section>
+  ${testHistory()}`;
+}
+function readiness(cards) {
+  if (!cards.length) return "";
+  const m = cards.reduce((a, c) => a + Math.min(MASTER, st(c)?.b || 0), 0) / (cards.length * MASTER);
+  const unseen = cards.filter(c => !st(c)).length;
+  if (m >= 0.8) return "You look ready for an assessment.";
+  if (unseen) return `${unseen} of them you haven't studied yet. Train first, or test yourself to see where you stand.`;
+  return `About ${pct(m)} learned. A few more sessions and you'll be ready.`;
+}
+function testHistory() {
+  const tests = (S.meta.tests || []).slice(-6).reverse();
+  if (!tests.length) return "";
+  return `<section class="card"><h2>Recent assessments</h2><div class="list">${tests.map(x => `<div class="li"><div class="grow"><div class="es">${esc(x.names.join(", "))}</div><div class="mean">${new Date(x.at).toLocaleDateString()} · ${x.total} questions${x.writing != null ? ` · writing ${pct(x.writing)}` : ""}</div></div><span class="pill ${x.score / x.total >= 0.8 ? "go" : x.score / x.total >= 0.6 ? "steady" : "hold"} num">${pct(x.score / x.total)}</span></div>`).join("")}</div></section>`;
+}
+
+/* ============================================================
+   View: Library + unit detail
+   ============================================================ */
+function viewLibrary() {
+  const units = Object.values(S.units).sort((a, b) => b.created - a.created);
+  const set = S.meta.settings;
+  return `
+  <section class="row between"><h1>Library</h1><a class="btn primary" href="#add">${ICON.add} Add material</a></section>
+  ${units.length ? `<section class="card"><div class="list">${units.map(u => {
+    const cs = cardsOfUnit(u); const m = cs.length ? cs.reduce((a, c) => a + Math.min(MASTER, st(c)?.b || 0), 0) / (cs.length * MASTER) : 0;
+    return `<div class="li"><div class="grow"><a class="es" href="#unit-${esc(u.id)}" style="color:inherit">${esc(u.title)}</a><div class="mean">${plural(u.vocab.length, "word")} · ${plural(u.grammar.length, "grammar point")} · ${pct(m)} learned</div><div class="meter" style="margin-top:6px"><b style="width:${m * 100}%"></b></div></div><a class="btn sm" href="#unit-${esc(u.id)}">Open</a></div>`;
+  }).join("")}</div></section>` : `<section class="card empty"><p class="muted">Nothing here yet.</p></section>`}
+  <section class="card">
+    <h2>Settings</h2>
+    <div class="grid2">
+      <div class="field"><label for="set-lang">Translate into</label><select class="input" id="set-lang" data-change="set-lang">${["English", "German", "French", "Italian", "Dutch", "Portuguese"].map(l => `<option ${set.lang === l ? "selected" : ""}>${l}</option>`).join("")}</select><span class="small muted">Used when Claude reads new material and explains answers.</span></div>
+      <div class="field"><label for="set-goal">Daily goal (answers)</label><select class="input" id="set-goal" data-change="set-goal">${[10, 20, 30, 50].map(g => `<option ${set.goal === g ? "selected" : ""} value="${g}">${g}</option>`).join("")}</select></div>
+    </div>
+    <label class="row small"><input type="checkbox" id="set-audio" data-change="set-audio" ${set.audio ? "checked" : ""}> Spanish audio and listening questions ${TTS.voice ? "" : `<span class="muted">(no Spanish voice found on this device)</span>`}</label>
+    <p class="small muted">${store.mode === "cloud" ? "Your units and progress are saved privately to your Claude account, so they follow you to other devices." : "Your units and progress are saved in this browser only. Open Repaso inside Claude to save to your account."}</p>
+  </section>`;
+}
+function viewUnit(id) {
+  const u = S.units[id];
+  if (!u) return `<section class="card empty"><p>That unit was deleted.</p><a class="btn" href="#library">Back to library</a></section>`;
+  const cs = cardsOfUnit(u);
+  const conf = UI.confirmDel === id;
+  return `
+  <section class="stack"><a class="btn sm ghost" href="#library" style="align-self:flex-start">← Library</a><h1>${esc(u.title)}</h1>
+  <p class="muted">${(u.themes || []).map(esc).join(" · ")}</p>
+  <div class="row"><button class="btn primary" data-act="train-unit" data-id="${esc(id)}">Train this unit</button>
+  ${conf ? `<div class="confirm"><span>Delete this unit and its progress?</span><button class="btn sm danger" data-act="del-unit" data-id="${esc(id)}">Delete</button><button class="btn sm" data-act="cancel-del">Keep</button></div>` : `<button class="btn ghost danger" data-act="ask-del" data-id="${esc(id)}">Delete unit</button>`}</div></section>
+  ${u.vocab.length ? `<section class="card"><h2>Words and phrases</h2><div class="list">${u.vocab.map(v => {
+    const c = cs.find(c => c.id === "v" + v.id); const s = c && st(c);
+    if (UI.editing === v.id) return `<div class="li"><div class="grow stack"><input class="input" id="ed-es" value="${esc(v.es)}" aria-label="Spanish"><input class="input" id="ed-mean" value="${esc(v.meaning)}" aria-label="Meaning"><input class="input" id="ed-alt" value="${esc((v.alt || []).join("; "))}" placeholder="Other accepted answers, separated by ;" aria-label="Accepted alternatives"><div class="row"><button class="btn sm primary" data-act="save-edit" data-u="${esc(id)}" data-id="${esc(v.id)}">Save</button><button class="btn sm" data-act="cancel-edit">Cancel</button><button class="btn sm ghost danger" data-act="del-item" data-u="${esc(id)}" data-id="${esc(v.id)}">Remove word</button></div></div></div>`;
+    return `<div class="li"><div class="grow"><div class="es">${esc(v.es)} <button class="speak" style="width:30px;height:30px;vertical-align:middle" data-act="say" data-t="${esc(v.es)}" aria-label="Play">${ICON.speak}</button></div><div class="mean">${esc(v.meaning)}${s?.l ? ` · missed ${s.l}×` : ""}</div></div>${tilesFor(s?.b || 0)}<button class="btn sm ghost" data-act="edit" data-id="${esc(v.id)}">Edit</button></div>`;
+  }).join("")}</div></section>` : ""}
+  ${u.grammar.map(g => `<section class="card"><div class="row between"><h2>${esc(g.title)}</h2><span class="pill blue">${plural(g.exercises.length, "exercise")}</span></div>
+    <div class="lesson">${esc(g.expl)}</div>
+    ${g.examples?.length ? `<div class="examples">${g.examples.map(e => `<div class="ex"><b>${esc(e.es)}</b><span>${esc(e.meaning)}</span></div>`).join("")}</div>` : ""}
+    ${AI.on ? `<div class="row"><button class="btn sm" data-act="more-ex" data-u="${esc(id)}" data-g="${esc(g.id)}">More exercises</button><span class="small muted" id="more-${esc(g.id)}"></span></div>` : ""}
+  </section>`).join("")}`;
+}
+
+/* ============================================================
+   View: Add material
+   ============================================================ */
+function addState() { return (UI.add ||= { mode: AI.on ? "files" : "list", files: [], text: "", list: "", hint: "", status: null, log: [], draft: null }); }
+function viewAdd() {
+  const A = addState();
+  if (A.draft) return viewDraft(A);
+  const aiOk = AI.on;
+  const busy = A.status === "busy";
+  return `
+  <section class="stack"><h1>Add material</h1><p class="muted">Anything from class works: worksheets, photos of your notebook or the board, textbook pages, PowerPoints, vocab lists. Claude reads it and builds lessons only from what's in it.</p></section>
+  ${!aiOk ? `<div class="banner"><div class="grow"><b>Reading files needs Claude.</b><span class="small">${AI.denied ? "Claude was turned off for this page." : "Open Repaso inside Claude to upload files and photos."} You can still add a word list below.</span></div></div>` : ""}
+  <div class="seg" role="group" aria-label="How to add">
+    <button data-act="add-mode" data-m="files" aria-pressed="${A.mode === "files"}">Files and photos</button>
+    <button data-act="add-mode" data-m="text" aria-pressed="${A.mode === "text"}">Paste text</button>
+    <button data-act="add-mode" data-m="list" aria-pressed="${A.mode === "list"}">Word list</button>
+  </div>
+  <section class="card">
+    ${A.mode === "files" ? `
+      <div class="drop" id="drop" role="button" tabindex="0" data-act="pick-files" aria-disabled="${!aiOk}">${ICON.upload}<b>Drop files here or tap to choose</b><span class="small muted">Photos (JPG, PNG, HEIC), PDF, Word (.docx), PowerPoint (.pptx), text</span></div>
+      ${A.files.length ? `<div class="files">${A.files.map((f, i) => `<div class="file"><span>${esc(f.name)}</span><span class="muted small" style="flex:none">${Math.max(1, Math.round(f.size / 1024))} KB</span><button class="btn sm ghost" data-act="rm-file" data-i="${i}" aria-label="Remove ${esc(f.name)}">✕</button></div>`).join("")}</div>` : ""}
+    ` : A.mode === "text" ? `
+      <div class="field"><label for="add-text">Paste your notes or worksheet text</label><textarea class="input" id="add-text" data-input="text" placeholder="Copy text from a document, website or your notes">${esc(A.text)}</textarea></div>
+    ` : `
+      <div class="field"><label for="add-list">One word per line: Spanish = meaning</label><textarea class="input" id="add-list" data-input="list" placeholder="el perro = the dog&#10;la casa = the house&#10;hablar = to speak">${esc(A.list)}</textarea><span class="small muted">Separators that work: =, -, :, ; or a tab. Works without Claude.</span></div>
+    `}
+    <div class="field"><label for="add-hint">${A.mode === "list" ? "Theme name" : "What is it about? (optional)"}</label><input class="input" id="add-hint" data-input="hint" value="${esc(A.hint)}" placeholder="${A.mode === "list" ? "e.g. Food and drink" : "e.g. Unit 4, family and describing people"}"></div>
+    <div class="row"><button class="btn primary" data-act="process" ${busy || (A.mode !== "list" && !aiOk) ? "disabled" : ""}>${busy ? '<span class="spinner"></span> Reading…' : A.mode === "list" ? "Create unit" : "Build lessons"}</button>${busy ? `<button class="btn ghost" data-act="stop-process">Stop</button>` : ""}</div>
+    ${A.log.length ? `<div class="progress-log" aria-live="polite">${A.log.map(l => `<span>${esc(l)}</span>`).join("")}</div>` : ""}
+  </section>`;
+}
+function viewDraft(A) {
+  const d = A.draft;
+  return `
+  <section class="stack"><h1>Check what Claude found</h1><p class="muted">Fix anything that looks wrong, remove what you don't need, then save. You can edit words later too.</p></section>
+  <section class="card">
+    <div class="field"><label for="dr-title">Unit title</label><input class="input" id="dr-title" data-dr="title" value="${esc(d.title)}"></div>
+    <div class="field"><label for="dr-themes">Themes (separate with ;)</label><input class="input" id="dr-themes" data-dr="themes" value="${esc(d.themes.join("; "))}"></div>
+  </section>
+  <section class="card"><div class="row between"><h2>${plural(d.vocab.length, "word")}</h2></div>
+    <div>${d.vocab.map((v, i) => `<div class="edit-row"><input class="input" data-dv="${i}" data-f="es" value="${esc(v.es)}" aria-label="Spanish"><input class="input" data-dv="${i}" data-f="meaning" value="${esc(v.meaning)}" aria-label="Meaning"><button class="btn sm ghost" data-act="dr-rm-v" data-i="${i}" aria-label="Remove">✕</button></div>`).join("") || `<p class="muted">No words found.</p>`}</div>
+  </section>
+  ${d.grammar.length ? `<section class="card"><h2>${plural(d.grammar.length, "grammar point")}</h2><div class="list">${d.grammar.map((g, i) => `<div class="li"><div class="grow"><div class="es">${esc(g.title)}</div><div class="mean">${plural(g.exercises.length, "exercise")} · ${esc(g.exercises.slice(0, 2).map(x => x.prompt).join("  ·  "))}</div></div><button class="btn sm ghost" data-act="dr-rm-g" data-i="${i}" aria-label="Remove">✕</button></div>`).join("")}</div></section>` : ""}
+  <div class="row"><button class="btn primary big" data-act="dr-save">Save unit</button><button class="btn ghost" data-act="dr-discard">Discard</button></div>`;
+}
+function afterAdd() {
+  const drop = $("#drop"); if (!drop) return;
+  drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); if (!AI.on) return; addFiles(e.dataTransfer.files); });
+  drop.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); drop.click(); } });
+}
+function addFiles(list) { const A = addState(); A.files.push(...[...list]); render(); }
+let procCtl = null;
+async function processAdd() {
+  const A = addState();
+  A.log = [];
+  if (A.mode === "list") {
+    const vocab = parseWordList(A.list);
+    if (!vocab.length) { toast("No words found. Use one line per word: español = meaning"); return; }
+    const theme = A.hint.trim() || "Word list " + new Date().toLocaleDateString();
+    vocab.forEach(v => (v.themes = [theme]));
+    A.draft = { title: theme, themes: [theme], vocab, grammar: [] };
+    render(); return;
+  }
+  if (!AI.on) return;
+  A.status = "busy"; procCtl = new AbortController(); render();
+  const log = m => { A.log.push(m); const el = $(".progress-log"); if (el) el.insertAdjacentHTML("beforeend", `<span>${esc(m)}</span>`); else render(); };
+  try {
+    const texts = [], images = [];
+    if (A.mode === "text") { if (A.text.trim()) texts.push(A.text); }
+    else for (const f of A.files) {
+      const name = f.name || "file";
+      try {
+        if (/^image\//.test(f.type) || /\.(heic|heif|jpe?g|png|webp|gif)$/i.test(name)) { images.push(await toJpeg(f)); }
+        else if (/\.pdf$/i.test(name) || f.type === "application/pdf") { log(`Reading ${name}…`); const r = await readPdf(f, log); if (r.text.trim()) texts.push(`[${name}]\n` + r.text); images.push(...r.images); }
+        else if (/\.(docx|pptx)$/i.test(name)) { log(`Reading ${name}…`); texts.push(`[${name}]\n` + await readOffice(f)); }
+        else if (/\.(txt|md|csv|rtf|html?)$/i.test(name) || /^text\//.test(f.type)) { let t = await f.text(); if (/\.html?$/i.test(name)) t = new DOMParser().parseFromString(t, "text/html").body.innerText; texts.push(`[${name}]\n` + t); }
+        else log(`Skipped ${name}: this file type isn't supported. Try PDF, Word, PowerPoint or a photo.`);
+      } catch (e) { log(`Couldn't open ${name}. ${/\.pdf$/i.test(name) ? "If it keeps failing, take photos of the pages instead." : ""}`); }
+    }
+    if (images.length && !AI.imgLimits) { log("Photos can't be sent to Claude from this view, so they were skipped."); images.length = 0; }
+    const jobs = [...chunkText(texts.join("\n\n")).map(t => ({ text: t })), ...chunk(images, Math.max(1, Math.min(4, AI.imgLimits?.maxCount || 1))).map(b => ({ images: b }))];
+    if (!jobs.length) { log("Nothing to read. Add a file or some text."); A.status = null; render(); return; }
+    const results = [];
+    for (let i = 0; i < jobs.length; i++) {
+      const j = jobs[i];
+      log(`Claude is reading part ${i + 1} of ${jobs.length}${j.images ? ` (${plural(j.images.length, "picture")})` : ""}…`);
+      const known = [...new Set([...results.flatMap(r => r.themes), ...themeIndex().map(t => t.name)])].slice(0, 20);
+      const raw = await AI.fn.json(extractPrompt(j.text || "", known, A.hint.trim(), !!j.images), { modelTier: "default", signal: procCtl.signal, ...(j.images ? { images: j.images } : {}) });
+      const r = cleanExtract(raw); results.push(r);
+      log(`Found ${plural(r.vocab.length, "word")} and ${plural(r.grammar.length, "grammar point")}.`);
+    }
+    const merged = mergeExtracts(results);
+    if (!merged.vocab.length && !merged.grammar.length) { log("Claude didn't find any Spanish to learn in that material."); A.status = null; render(); return; }
+    merged.title ||= A.hint.trim() || "New unit";
+    if (!merged.themes.length) merged.themes = [merged.title];
+    A.draft = merged; A.status = null; render();
+  } catch (e) {
+    A.status = null; A.log.push(AI.errText(e)); render();
+  }
+}
+function saveDraft() {
+  const A = addState(), d = A.draft;
+  const themes = d.themes.map(t => t.trim()).filter(Boolean);
+  const valid = new Set(themes.map(t => t.toLowerCase()));
+  const fix = arr => { const t = (arr || []).filter(x => valid.has(x.toLowerCase())); return t.length ? t : [themes[0] || d.title]; };
+  const unit = addIds({
+    id: rid(), created: Date.now(), title: d.title.trim() || "New unit", lang: lang(), themes: themes.length ? themes : [d.title],
+    vocab: d.vocab.filter(v => v.es.trim() && v.meaning.trim()).map(v => ({ ...v, themes: fix(v.themes) })),
+    grammar: d.grammar.map(g => ({ ...g, themes: fix(g.themes) })),
+  });
+  S.units[unit.id] = unit; invalidate();
+  store.mark("unit_" + unit.id);
+  UI.add = null;
+  toast(`Saved "${unit.title}"`);
+  go("unit-" + unit.id);
+}
+
+/* ============================================================
+   Learning session
+   ============================================================ */
+let SES = null;
+function startSession({ themes = null, unitId = null, ids = null } = {}) {
+  const t = Date.now();
+  const pool = allCards().filter(c => inThemes(c, themes) && (!unitId || c.uid === unitId) && (!ids || ids.includes(c.id)));
+  if (!pool.length) { toast("Nothing to practise here yet."); return; }
+  const p = pacing();
+  let queue = [], extra = false;
+  if (ids) queue = shuffle(pool).map(c => c.id);
+  else {
+    const due = pool.filter(c => { const s = st(c); return s && s.d <= t; }).sort((a, b) => st(a).b - st(b).b || st(a).d - st(b).d).slice(0, 18);
+    const fresh = pool.filter(c => !st(c)).slice(0, p.newCount);
+    const rev = shuffle(due).map(c => c.id);
+    for (const c of fresh) { queue.push(...rev.splice(0, 2), c.id); }
+    queue.push(...rev);
+    if (!queue.length) {
+      extra = true;
+      queue = shuffle(pool.filter(c => st(c)).sort((a, b) => st(a).b - st(b).b || st(b).l - st(a).l).slice(0, 12)).map(c => c.id);
+      if (!queue.length) {
+        // Everything here is new but pacing is on hold: allow a tiny taste rather than nothing.
+        queue = pool.filter(c => !st(c)).slice(0, 2).map(c => c.id);
+      }
+    }
+  }
+  if (!queue.length) { toast("Nothing to practise right now."); return; }
+  SES = { queue, total: queue.length, answered: 0, right: 0, info: {}, log: [], held: 0, extra, pace: p, cur: null, done: false, steps: 0, scope: { themes, unitId, ids } };
+  nextQ();
+  window.scrollTo(0, 0);
+  render();
+}
+function nextQ() {
+  while (SES.queue.length && SES.steps < 45) {
+    const id = SES.queue.shift(); const c = cardById(id); if (!c) continue;
+    const fresh = !st(c) && !SES.info[id];
+    if (fresh && SES.answered >= 6 && SES.right / SES.answered < 0.7) { SES.held++; continue; }
+    SES.steps++;
+    SES.cur = buildQ(c, "learn");
+    if (fresh) {
+      SES.cur.intro = c.kind === "vocab" || !(S.prog[c.uid] || {})["gi" + c.g.id];
+    }
+    return;
+  }
+  SES.cur = null; SES.done = true;
+}
+function mcOptions(c, key) {
+  const pool = allCards().filter(o => o.kind === "vocab" && o.id !== c.id);
+  const groups = [pool.filter(o => o.uid === c.uid && o.v.pos === c.v.pos), pool.filter(o => o.uid === c.uid), pool];
+  const picks = [], seen = new Set([bare(c.v[key])]);
+  for (const g of groups) for (const o of shuffle(g)) { if (picks.length >= 3) break; const k = bare(o.v[key]); if (seen.has(k)) continue; seen.add(k); picks.push(o.v[key]); }
+  return picks.length >= 2 ? shuffle([c.v[key], ...picks]) : null;
+}
+function clozeOf(v) {
+  if (!v.ex) return null;
+  for (const form of [v.es, dropArticle(v.es)]) {
+    const f = form.replace(/[¿?¡!.]/g, "").trim(); if (f.length < 2) continue;
+    const i = v.ex.toLowerCase().indexOf(f.toLowerCase());
+    if (i >= 0) return { before: v.ex.slice(0, i), after: v.ex.slice(i + f.length), answer: v.ex.slice(i, i + f.length) };
+  }
+  return null;
+}
+function hintFor(a) {
+  return a.split(" ").map(w => ARTICLES.includes(w.toLowerCase()) || /^[¿¡]/.test(w) && w.length < 2 ? w : [...w].map((ch, i) => (i === 0 || /[^\p{L}]/u.test(ch) ? ch : "_")).join("")).join("  ");
+}
+/* mode "learn": question type follows the ladder. mode "test": harder mix, no hints. */
+function buildQ(c, mode) {
+  const s = st(c), b = s ? s.b : 0;
+  if (c.kind === "gram") return { card: c, type: "gram", hint: mode === "learn" && b <= 2 ? c.x.hint : "", answers: [c.x.answer, ...(c.x.accept || [])] };
+  const v = c.v, answers = [v.es, ...(v.alt || [])];
+  let type;
+  if (mode === "test") {
+    const opts = ["type", "type", "recog"]; if (clozeOf(v)) opts.push("cloze", "cloze"); if (TTS.canListen) opts.push("listen");
+    type = opts[(Math.random() * opts.length) | 0];
+  } else if (b <= 0) type = "recog";
+  else if (b === 1) type = "prod";
+  else if (b === 2) type = "hint";
+  else { const opts = ["type", "type"]; if (clozeOf(v)) opts.push("cloze"); if (TTS.canListen && b >= 4) opts.push("listen"); type = opts[(Math.random() * opts.length) | 0]; }
+  const q = { card: c, type, answers };
+  if (type === "recog" || type === "prod") { q.options = mcOptions(c, type === "recog" ? "meaning" : "es"); if (!q.options) q.type = mode === "test" ? "type" : "hint"; }
+  if (q.type === "cloze") { q.cloze = clozeOf(v); q.answers = [q.cloze.answer]; }
+  if (q.type === "hint") q.hint = hintFor(v.es);
+  return q;
+}
+
+function qBody(q, locked) {
+  const c = q.card;
+  const sayBtn = t => TTS.ok && S.meta.settings.audio ? `<button class="speak" data-act="say" data-t="${esc(t)}" aria-label="Play pronunciation">${ICON.speak}</button>` : "";
+  const typing = (label, ph = "Type in Spanish") => `
+    <label class="sub" for="ans">${label}</label>
+    <input class="answer" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${ph}" ${locked ? "disabled" : ""} value="${esc(q.given || "")}">
+    ${locked ? "" : `<div class="accents" aria-label="Spanish characters">${["á", "é", "í", "ó", "ú", "ñ", "ü", "¿", "¡"].map(ch => `<button type="button" data-act="ins" data-ch="${ch}" tabindex="-1">${ch}</button>`).join("")}</div>
+    <div class="row"><button class="btn primary" data-act="check">Check</button><button class="btn ghost" data-act="dunno">I don't know</button></div>`}`;
+  if (q.intro && c.kind === "vocab") {
+    const v = c.v;
+    return `<div class="qkind"><span class="pill blue">New ${v.pos === "phrase" ? "phrase" : "word"}</span>${tilesFor(0)}</div>
+      <div class="prompt">${esc(v.es)} ${sayBtn(v.es)}</div>
+      <p style="font-size:1.2rem">${esc(v.meaning)}</p>
+      ${v.ex ? `<div class="ex"><b>${esc(v.ex)}</b><span>${esc(v.exm)}</span></div>` : ""}
+      ${v.note ? `<p class="small"><b>Note:</b> ${esc(v.note)}</p>` : ""}
+      <div class="row"><button class="btn primary big" data-act="intro-ok">Got it, quiz me</button></div>`;
+  }
+  if (q.intro && c.kind === "gram") {
+    const g = c.g;
+    return `<div class="qkind"><span class="pill blue">New grammar</span></div>
+      <h2 style="font-size:1.5rem">${esc(g.title)}</h2>
+      <div class="lesson">${esc(g.expl)}</div>
+      ${g.examples?.length ? `<div class="examples">${g.examples.map(e => `<div class="ex"><b>${esc(e.es)}</b><span>${esc(e.meaning)}</span></div>`).join("")}</div>` : ""}
+      <div class="row"><button class="btn primary big" data-act="intro-ok">Try the exercises</button></div>`;
+  }
+  const lvl = tilesFor(st(c)?.b || 0);
+  const head = label => `<div class="qkind"><span class="eyebrow">${label}</span>${TEST ? "" : lvl}</div>`;
+  if (q.type === "gram") {
+    const parts = c.x.prompt.split(/_{2,}/);
+    const prompt = parts.length > 1 ? parts.map(esc).join('<span class="gap"></span>') : esc(c.x.prompt);
+    return `${head("Grammar · " + esc(c.g.title))}<div class="prompt sm">${prompt}</div>${q.hint ? `<p class="small muted">Hint: ${esc(q.hint)}</p>` : ""}${typing("Fill the gap", "Your answer")}`;
+  }
+  const v = c.v;
+  if (q.type === "recog" || q.type === "prod") {
+    const shown = q.type === "recog" ? v.es : v.meaning;
+    const correct = q.type === "recog" ? v.meaning : v.es;
+    return `${head(q.type === "recog" ? "What does this mean?" : "How do you say this in Spanish?")}
+      <div class="prompt">${esc(shown)} ${q.type === "recog" ? sayBtn(v.es) : ""}</div>
+      <div class="opts">${q.options.map((o, i) => {
+        let cls = ""; if (locked) { if (o === correct) cls = "right"; else if (o === q.given) cls = "wrong"; }
+        return `<button class="opt ${cls}" data-act="pick" data-i="${i}" ${locked ? "disabled" : ""}><kbd>${i + 1}</kbd><span>${esc(o)}</span></button>`;
+      }).join("")}</div>
+      ${locked ? "" : `<div class="row"><button class="btn ghost" data-act="dunno">I don't know</button></div>`}`;
+  }
+  if (q.type === "cloze") return `${head("Fill the gap")}<div class="prompt sm">${esc(q.cloze.before)}<span class="gap"></span>${esc(q.cloze.after)}</div><p class="sub">${esc(v.exm)} <span class="small">(${esc(v.meaning)})</span></p>${typing("The missing word")}`;
+  if (q.type === "listen") return `${head("Listen and write")}<div class="row"><button class="speak huge" data-act="say" data-t="${esc(v.es)}" aria-label="Play again">${ICON.speak}</button><span class="muted small">Tap to hear it again</span></div>${typing("What did you hear?")}`;
+  return `${head("Write it in Spanish")}<div class="prompt sm">${esc(v.meaning)}</div>${q.type === "hint" ? `<div class="hint" aria-label="Hint">${esc(q.hint)}</div>` : ""}${typing("Your answer")}`;
+}
+function correctText(q) {
+  const c = q.card;
+  if (c.kind === "gram") return c.x.answer;
+  if (q.type === "recog") return c.v.meaning;
+  if (q.type === "cloze") return q.cloze.answer;
+  return c.v.es;
+}
+function fbBody(q, ctx) {
+  const f = q.fb, c = q.card;
+  const right = correctText(q);
+  const full = c.kind === "gram" ? c.x.prompt.replace(/_{2,}/, c.x.answer) : (q.type === "cloze" ? c.v.ex : c.v.es);
+  const typed = !["recog", "prod"].includes(q.type);
+  const nextBtn = `<button class="btn primary" data-act="next" id="next-btn">Continue</button>`;
+  let h = "";
+  if (isOk(f.r)) {
+    h = `<div class="fb right"><h3>${["¡Correcto!", "¡Muy bien!", "¡Eso es!", "¡Perfecto!"][(Math.random() * 4) | 0]}</h3>
+      ${f.r === "accent" ? `<p>${esc(f.why)} It's <b>${esc(f.target)}</b>.</p>` : ""}
+      ${q.type === "recog" ? `<p><b>${esc(c.v.es)}</b> = ${esc(c.v.meaning)}</p>` : ""}
+      ${ctx === "learn" && f.after != null ? `<p class="small">${f.after > f.before ? `Level up ${tilesFor(f.after)} ${f.after >= MASTER ? "Mastered! " : ""}` : ""}${f.again ? "You'll see it once more in a few cards to lock it in." : `Next review ${when(INTERVAL[f.after])}.`}</p>` : ""}
+      <div class="row">${nextBtn}</div></div>`;
+  } else if (f.r === "almost") {
+    h = `<div class="fb almost"><h3>Almost</h3><p>${esc(f.why)}</p><p class="correct">${esc(full)}</p>${ctx === "learn" ? `<p class="small">It comes back in a moment.</p>` : ""}<div class="row">${nextBtn}</div></div>`;
+  } else {
+    h = `<div class="fb wrong"><h3>Not quite</h3>
+      ${q.given ? `<p>You wrote <s>${esc(q.given)}</s></p>` : ""}
+      <p>Correct answer:</p><p class="correct">${esc(right)} ${c.kind === "vocab" ? `<button class="speak" style="width:32px;height:32px;vertical-align:middle" data-act="say" data-t="${esc(c.v.es)}" aria-label="Play">${ICON.speak}</button>` : ""}</p>
+      ${c.kind === "vocab" && q.type !== "recog" ? `<p class="small">${esc(c.v.es)} = ${esc(c.v.meaning)}</p>` : ""}
+      ${c.kind === "vocab" && c.v.ex && q.type !== "cloze" ? `<div class="ex"><b>${esc(c.v.ex)}</b><span>${esc(c.v.exm)}</span></div>` : ""}
+      ${c.kind === "gram" && c.x.hint ? `<p class="small">Rule: ${esc(c.x.hint)}</p>` : ""}
+      ${ctx === "learn" ? `<p class="small">This comes back in a few cards. Get it right twice to move on.</p>` : ""}
+      ${q.ai ? `<div class="ai" aria-live="polite">${esc(q.ai)}</div>` : ""}
+      <div class="row">${nextBtn}${AI.on && !q.ai ? `<button class="btn" data-act="explain">Explain why</button>` : ""}${typed && q.given ? `<button class="btn ghost" data-act="override">I was right</button>` : ""}</div></div>`;
+  }
+  return h;
+}
+
+function viewSession() {
+  const S_ = SES;
+  if (S_.done) return viewSessionEnd();
+  const q = S_.cur;
+  const done = S_.answered, est = Math.max(S_.total, done + S_.queue.length + 1);
+  return `
+  <div class="s-top"><button class="icon-btn" data-act="quit" aria-label="End session">${ICON.close}</button><div class="meter" role="progressbar" aria-valuenow="${done}" aria-valuemax="${est}"><b style="width:${(done / est) * 100}%"></b></div><span class="num small muted">${done}/${est}</span></div>
+  ${S_.flash ? `<div class="banner"><div class="grow"><b>${esc(S_.flash)}</b></div></div>` : ""}
+  <section class="qcard">${qBody(q, !!q.fb)}</section>
+  ${q.fb ? fbBody(q, "learn") : ""}`;
+}
+function afterSession() { focusAnswer(); }
+function focusAnswer() {
+  const q = (SES || TEST)?.cur; if (!q) return;
+  if (q.fb) { $("#next-btn")?.focus({ preventScroll: true }); $("#next-btn")?.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+  else $("#ans")?.focus({ preventScroll: true });
+  if (!q.fb && !q.intro && q.type === "listen" && !q.played) { q.played = true; setTimeout(() => TTS.say(q.card.v.es), 250); }
+}
+function submit(given, forced) {
+  const R = TEST || SES, q = R.cur; if (!q || q.fb) return;
+  let res;
+  if (forced) res = { r: forced, target: correctText(q) };
+  else if (q.type === "recog" || q.type === "prod") res = { r: given === correctText(q) ? "right" : "wrong", target: correctText(q) };
+  else res = check(given, q.answers);
+  q.given = given;
+  if (TEST) { q.fb = res; testAnswer(q, res); render(); return; }
+  learnApply(q, res);
+  render();
+}
+function learnApply(q, res) {
+  const c = q.card, info = (SES.info[c.id] ||= { wrong: 0, streak: 0, cap: null });
+  q.undo = { snap: st(c) ? { ...st(c) } : null, info: { ...info }, answered: SES.answered, right: SES.right, queue: [...SES.queue], log: SES.log.length, flash: SES.flash };
+  const { before, after } = applyAnswer(c, res.r, { mc: q.type === "recog" || q.type === "prod", cap: info.cap });
+  res.before = before; res.after = after;
+  SES.answered++;
+  if (isOk(res.r)) { SES.right++; info.streak++; } else { info.streak = 0; if (res.r === "wrong") { info.wrong++; info.cap = Math.min(MAXB, after + 1); } }
+  // Requeue: mistakes come back in 3 cards; a card that was missed must be right twice in a row; new cards stay until they reach step 2.
+  let again = 0; const s = st(c);
+  if (res.r === "wrong" && info.wrong < 4) again = 3;
+  else if (res.r === "almost") again = 2;
+  else if (isOk(res.r) && (s.b < 2 || (info.wrong > 0 && info.streak < 2))) again = 4;
+  if (again && SES.steps < 45) SES.queue.splice(Math.min(again, SES.queue.length), 0, c.id);
+  res.again = again;
+  SES.log.push({ id: c.id, r: res.r, before, after });
+  SES.flash = null;
+  if (SES.answered === 6 && SES.right / SES.answered < 0.7 && SES.queue.some(id => { const k = cardById(id); return k && !st(k); })) SES.flash = "Holding back new material until these feel easier.";
+  q.fb = res;
+}
+function learnUndo(q) {
+  const c = q.card, u = q.undo;
+  if (u.snap) setSt(c, u.snap); else if (S.prog[c.uid]) delete S.prog[c.uid][c.id];
+  SES.info[c.id] = u.info; SES.answered = u.answered; SES.right = u.right; SES.queue = u.queue; SES.log.length = u.log; SES.flash = u.flash;
+  S.meta.recent.pop(); const k = dayKey(); if (S.meta.days[k]) S.meta.days[k]--;
+}
+function viewSessionEnd() {
+  const L = SES.log;
+  const ids = [...new Set(L.map(x => x.id))];
+  const up = ids.filter(id => { const ls = L.filter(x => x.id === id); return ls[ls.length - 1].after > ls[0].before; }).length;
+  const mastered = ids.filter(id => { const ls = L.filter(x => x.id === id); return ls[ls.length - 1].after >= MASTER && ls[0].before < MASTER; }).length;
+  const missed = ids.filter(id => L.some(x => x.id === id && x.r === "wrong")).map(cardById).filter(Boolean);
+  const acc = SES.answered ? SES.right / SES.answered : 0;
+  const p = pacing();
+  return `
+  <section class="card lift">
+    <div class="eyebrow">${SES.extra ? "Extra practice" : "Session"} complete</div>
+    <h1>${acc >= 0.85 ? "¡Excelente!" : acc >= 0.7 ? "¡Bien hecho!" : "Good work sticking with it"}</h1>
+    <div class="grid3">
+      <div class="stat"><span class="v num">${SES.answered}</span><span class="k">answers</span></div>
+      <div class="stat"><span class="v num">${pct(acc)}</span><span class="k">accuracy</span></div>
+      <div class="stat"><span class="v num">${up}</span><span class="k">items moved up${mastered ? ` · ${mastered} mastered` : ""}</span></div>
+    </div>
+    ${SES.held ? `<p>${plural(SES.held, "new item")} held back because this session was tough. They'll come once these are steadier.</p>` : ""}
+    <p class="muted">${esc(p.msg)}</p>
+    <div class="row"><button class="btn primary" data-act="again">Another session</button><button class="btn" data-act="home">Done</button></div>
+  </section>
+  ${missed.length ? `<section class="card"><h2>Mistakes to watch</h2><p class="small muted">These come back first next time.</p><div class="list">${missed.map(c => rowFor(c)).join("")}</div></section>` : ""}`;
+}
+
+/* ============================================================
+   Assessment
+   ============================================================ */
+let TEST = null;
+function viewTestSetup() {
+  const ths = themeIndex().filter(t => UI.sel.includes(t.key));
+  const cards = allCards().filter(c => inThemes(c, UI.sel));
+  const studied = cards.filter(c => st(c)).length;
+  const T = UI.tset ||= { n: Math.min(20, cards.length), onlyStudied: studied >= 10, writing: AI.on };
+  return `
+  <section class="stack"><button class="btn sm ghost" data-act="test-cancel" style="align-self:flex-start">← Themes</button><h1>Assessment</h1><p class="muted">${esc(ths.map(t => t.name).join(", "))}</p></section>
+  <section class="card">
+    <p>Like a class test: no hints, mixed question types, and no second tries. Anything you miss goes straight back into your training.</p>
+    <div class="field"><label>Questions</label><div class="seg">${[10, 20, 30].map(n => `<button data-act="tset-n" data-n="${n}" aria-pressed="${T.n === n}">${n}</button>`).join("")}</div></div>
+    <label class="row"><input type="checkbox" id="t-studied" data-change="tset-studied" ${T.onlyStudied ? "checked" : ""}> Only material I've studied (${studied} of ${cards.length})</label>
+    ${AI.on ? `<label class="row"><input type="checkbox" id="t-writing" data-change="tset-writing" ${T.writing ? "checked" : ""}> Add 3 sentence translations that Claude grades</label>` : ""}
+    <div class="row"><button class="btn primary big" data-act="test-start">Start assessment</button></div>
+  </section>`;
+}
+function startTest() {
+  const T = UI.tset, keys = UI.sel;
+  let pool = allCards().filter(c => inThemes(c, keys));
+  if (T.onlyStudied) { const s = pool.filter(c => st(c)); if (s.length >= 4) pool = s; }
+  const n = Math.min(T.n, pool.length);
+  // Balance: weaker items more likely, every theme represented.
+  const weighted = shuffle(pool).sort((a, b) => ((st(a)?.b || 0) - (st(b)?.b || 0)) + (Math.random() - 0.5) * 3);
+  const picked = weighted.slice(0, n);
+  const names = themeIndex().filter(t => keys.includes(t.key)).map(t => t.name);
+  TEST = { keys, names, items: shuffle(picked).map(c => c.id), i: 0, answers: [], cur: null, done: false, writing: null, wIdx: 0, phase: "obj" };
+  TEST.cur = buildQ(cardById(TEST.items[0]), "test");
+  if (T.writing && AI.on) {
+    TEST.writing = { status: "loading", tasks: [], given: [] };
+    const vocab = picked.filter(c => c.kind === "vocab").concat(pool.filter(c => c.kind === "vocab")).slice(0, 80).map(c => `${c.v.es} = ${c.v.meaning}`);
+    const gram = [...new Set(pool.filter(c => c.kind === "gram").map(c => c.g.title))];
+    AI.fn.json(`Create 3 short translation tasks for a beginner Spanish learner. Each is a sentence of 5-12 words in ${lang()} that the student translates into Spanish, using ONLY this vocabulary and grammar. Make them natural and different from each other.
+Reply with only a JSON array: [{"prompt": "sentence in ${lang()}", "model": "a correct Spanish translation"}]
+Vocabulary:\n${vocab.join("\n")}\n${gram.length ? `Grammar: ${gram.join("; ")}` : ""}`, { modelTier: "default", cache: false })
+      .then(r => { if (!TEST || !TEST.writing) return; const tasks = (Array.isArray(r) ? r : []).filter(t => t && t.prompt && t.model).slice(0, 3); TEST.writing.tasks = tasks; TEST.writing.status = tasks.length ? "ready" : "off"; if (TEST.phase === "wait") { TEST.phase = tasks.length ? "write" : "end"; if (!tasks.length) finishTest(); render(); } })
+      .catch(e => { if (!TEST || !TEST.writing) return; TEST.writing.status = "off"; TEST.writing.err = AI.errText(e); if (TEST.phase === "wait") finishTest(); });
+  }
+  render();
+}
+function testAnswer(q, res) {
+  TEST.answers.push({ id: q.card.id, r: res.r, given: q.given, type: q.type });
+}
+function testNext() {
+  TEST.i++;
+  if (TEST.i < TEST.items.length) { TEST.cur = buildQ(cardById(TEST.items[TEST.i]), "test"); render(); return; }
+  TEST.cur = null;
+  if (TEST.writing && TEST.writing.status !== "off") { TEST.phase = TEST.writing.status === "ready" ? "write" : "wait"; render(); return; }
+  finishTest();
+}
+async function finishTest() {
+  TEST.phase = "grading"; render();
+  const W = TEST.writing;
+  if (W && W.tasks.length && W.status === "ready") {
+    try {
+      const list = W.tasks.map((t, i) => `${i + 1}. Prompt (${lang()}): ${t.prompt}\n   Model answer: ${t.model}\n   Student wrote: ${W.given[i] || "(blank)"}`).join("\n");
+      const r = await AI.fn.json(`Grade a beginner Spanish learner's translations. For each task give "score": 2 (meaning and grammar correct; a missing accent is fine), 1 (understandable but with errors) or 0 (wrong or blank). Give "corrected": the student's sentence with errors fixed (or the model answer if blank) and "feedback": one short sentence in ${lang()} naming the main mistake, or praise if correct.
+Reply with only a JSON array in task order: [{"score": 2, "corrected": "...", "feedback": "..."}]
+\n${list}`, { modelTier: "default", cache: false });
+      W.grades = (Array.isArray(r) ? r : []).map(g => ({ score: Math.max(0, Math.min(2, Number(g?.score) || 0)), corrected: String(g?.corrected || ""), feedback: String(g?.feedback || "") }));
+    } catch (e) { W.err = AI.errText(e); }
+  }
+  // Apply results to training
+  const per = {};
+  for (const a of TEST.answers) {
+    const c = cardById(a.id); if (!c) continue;
+    const ok = isOk(a.r);
+    for (const t of c.themes) { const k = t.trim().toLowerCase(); if (!TEST.keys.includes(k)) continue; (per[k] ||= [0, 0]); per[k][1]++; if (ok) per[k][0]++; }
+    const s = st(c), t0 = Date.now();
+    if (a.r === "almost") { if (s) s.d = t0; }
+    else if (!ok) { const n = s || setSt(c, { b: 0, d: t0, s: 0, c: 0, l: 0, t: t0 }); n.b = Math.min(n.b, 1); n.d = t0; n.l++; n.s++; n.t = t0; }
+    else if (!s) setSt(c, { b: 2, d: t0 + INTERVAL[2], s: 1, c: 1, l: 0, t: t0 });
+    logAnswer(ok);
+    store.mark("prog_" + c.uid);
+  }
+  const score = TEST.answers.filter(a => isOk(a.r)).length;
+  const writing = W && W.grades && W.grades.length ? W.grades.reduce((a, g) => a + g.score, 0) / (W.grades.length * 2) : null;
+  S.meta.tests = [...(S.meta.tests || []), { at: Date.now(), keys: TEST.keys, names: TEST.names, score, total: TEST.answers.length, per, writing }].slice(-30);
+  store.mark("meta");
+  TEST.result = { score, total: TEST.answers.length, per, writing };
+  TEST.phase = "end"; TEST.done = true;
+  render();
+}
+function viewTest() {
+  const T = TEST;
+  if (T.phase === "end" && T.result) return viewTestResult();
+  if (T.phase === "grading" || T.phase === "wait") return `<section class="card lift empty"><span class="spinner"></span><h2>${T.phase === "wait" ? "Preparing the writing tasks…" : "Marking your test…"}</h2><p class="muted">${T.writing ? "Claude is checking your sentences." : ""}</p></section>`;
+  const top = (i, n) => `<div class="s-top"><button class="icon-btn" data-act="quit" aria-label="Stop assessment">${ICON.close}</button><div class="meter"><b class="gold" style="width:${(i / n) * 100}%"></b></div><span class="num small muted">${i}/${n}</span></div>`;
+  const totalQ = T.items.length + (T.writing && T.writing.status !== "off" ? 3 : 0);
+  if (T.phase === "write") {
+    const W = T.writing, t = W.tasks[T.wIdx];
+    return `${top(T.items.length + T.wIdx, totalQ)}
+    <section class="qcard"><div class="qkind"><span class="eyebrow">Writing · ${T.wIdx + 1} of ${W.tasks.length}</span><span class="pill blue">Graded by Claude</span></div>
+      <div class="prompt sm">${esc(t.prompt)}</div>
+      <label class="sub" for="ans">Translate into Spanish</label>
+      <textarea class="answer" id="ans" spellcheck="false" autocapitalize="off">${esc(W.given[T.wIdx] || "")}</textarea>
+      <div class="accents">${["á", "é", "í", "ó", "ú", "ñ", "ü", "¿", "¡"].map(ch => `<button type="button" data-act="ins" data-ch="${ch}" tabindex="-1">${ch}</button>`).join("")}</div>
+      <div class="row"><button class="btn primary" data-act="w-next">${T.wIdx + 1 < W.tasks.length ? "Next" : "Finish and mark"}</button></div>
+    </section>`;
+  }
+  const q = T.cur;
+  return `${top(T.i, totalQ)}
+  <section class="qcard">${qBody(q, !!q.fb)}</section>
+  ${q.fb ? fbBody(q, "test").replace('data-act="next"', 'data-act="t-next"') : ""}`;
+}
+function afterTest() { if (TEST && TEST.cur) focusAnswer(); else if (TEST?.phase === "write") $("#ans")?.focus(); }
+function viewTestResult() {
+  const R = TEST.result, W = TEST.writing;
+  const frac = R.total ? R.score / R.total : 0;
+  const ths = themeIndex();
+  const wrong = TEST.answers.filter(a => !isOk(a.r)).map(a => ({ a, c: cardById(a.id) })).filter(x => x.c);
+  return `
+  <section class="card lift">
+    <div class="eyebrow">Assessment · ${esc(TEST.names.join(", "))}</div>
+    <div class="row" style="align-items:flex-end;gap:16px"><span class="score-big">${pct(frac)}</span><span class="muted">${R.score} of ${R.total} right${R.writing != null ? ` · writing ${pct(R.writing)}` : ""}</span></div>
+    <p>${frac >= 0.9 ? "Excellent. You know this material." : frac >= 0.75 ? "Solid. Train the mistakes below and you're there." : frac >= 0.5 ? "Getting there. Train these themes a few more times, then test again." : "This needs more training first. Your mistakes are now at the front of the queue."}</p>
+    <div class="stack">${Object.entries(R.per).map(([k, [r, n]]) => `<div><div class="row between small"><b>${esc(ths.find(t => t.key === k)?.name || k)}</b><span class="num">${r}/${n}</span></div><div class="meter"><b class="${r / n >= 0.8 ? "gold" : ""}" style="width:${(r / n) * 100}%"></b></div></div>`).join("")}</div>
+    <div class="row">${wrong.length ? `<button class="btn primary" data-act="train-mistakes">Train my mistakes</button>` : ""}<button class="btn" data-act="test-done">Back to themes</button></div>
+  </section>
+  ${W && (W.grades || W.err) ? `<section class="card"><h2>Writing</h2>${W.err ? `<p class="muted">${esc(W.err)}</p>` : ""}${(W.grades || []).map((g, i) => `<div class="ex stack" style="gap:4px"><span class="small muted">${esc(W.tasks[i]?.prompt)}</span><span>You: ${esc(W.given[i] || "(blank)")}</span><b>${esc(g.corrected)}</b><span class="small">${esc(g.feedback)}</span><span class="pill ${g.score === 2 ? "go" : g.score === 1 ? "steady" : "hold"}" style="align-self:flex-start">${g.score}/2</span></div>`).join("")}</section>` : ""}
+  ${wrong.length ? `<section class="card"><h2>Mistakes</h2><div class="list">${wrong.map(({ a, c }) => `<div class="li"><div class="grow"><div class="es">${esc(c.kind === "vocab" ? c.v.es : c.x.prompt.replace(/_{2,}/, c.x.answer))}</div><div class="mean">${esc(c.kind === "vocab" ? c.v.meaning : c.g.title)}${a.given ? ` · you wrote “${esc(a.given)}”` : ""}</div></div></div>`).join("")}</div></section>` : ""}`;
+}
+
+/* ============================================================
+   AI helpers in sessions
+   ============================================================ */
+async function explain() {
+  const R = TEST || SES, q = R?.cur; if (!q || q.ai) return;
+  const c = q.card;
+  q.ai = "Thinking…"; render();
+  const ctx = c.kind === "vocab"
+    ? `Word: ${c.v.es} = ${c.v.meaning}${c.v.ex ? `\nExample: ${c.v.ex} (${c.v.exm})` : ""}${c.v.note ? `\nNote: ${c.v.note}` : ""}`
+    : `Grammar point: ${c.g.title}\n${c.g.expl.slice(0, 1200)}\nExercise: ${c.x.prompt}`;
+  const qt = { recog: "pick the meaning of the Spanish word", prod: "pick the Spanish for the meaning", cloze: "fill the gap in a sentence", listen: "write the Spanish word they heard", gram: "fill the gap", hint: "write the Spanish", type: "write the Spanish" }[q.type];
+  try {
+    await AI.fn(`A beginner student learning Spanish got a practice question wrong. In ${lang()}, explain in at most 70 words why their answer is wrong and give one concrete trick to remember the right answer. Friendly, direct, no preamble, plain text.
+Task: ${qt}
+${ctx}
+Correct answer: ${correctText(q)}
+Student's answer: ${q.given || "(they didn't know)"}`, { modelTier: "quick", onText: ({ text }) => { q.ai = text; const el = $(".fb .ai"); if (el) el.textContent = text; } });
+  } catch (e) { q.ai = AI.errText(e); }
+  render();
+}
+async function moreExercises(uid, gid, btn) {
+  const u = S.units[uid], g = u?.grammar.find(x => x.id === gid); if (!g) return;
+  const note = $("#more-" + gid); btn.disabled = true; if (note) note.textContent = "Claude is writing exercises…";
+  try {
+    const r = await AI.fn.json(`Write 6 new fill-in-the-gap exercises in Spanish for this grammar point, for a beginner. Use ___ for the gap; answers are 1-4 words; instructions or hints in ${lang()}. Don't repeat these existing ones: ${g.exercises.map(x => x.prompt).join(" | ").slice(0, 2000)}
+Grammar point: ${g.title}\n${g.expl.slice(0, 1500)}
+Reply with only a JSON array: [{"prompt": "Yo ___ (hablar) español.", "answer": "hablo", "accept": [], "hint": "yo → -o"}]`, { modelTier: "default", cache: false });
+    const add = (Array.isArray(r) ? r : []).filter(x => x && x.prompt && x.answer && /_{2,}/.test(x.prompt)).map(x => ({ id: rid(), prompt: String(x.prompt), answer: String(x.answer), accept: Array.isArray(x.accept) ? x.accept.map(String) : [], hint: String(x.hint || "") }));
+    g.exercises.push(...add); invalidate(); store.mark("unit_" + uid);
+    toast(`Added ${plural(add.length, "exercise")}`); render();
+  } catch (e) { if (note) note.textContent = AI.errText(e); btn.disabled = false; }
+}
+
+/* ============================================================
+   Events
+   ============================================================ */
+const ACT = {
+  start() { startSession(); },
+  again() { const sc = SES?.scope || {}; SES = null; startSession(sc.ids ? {} : sc); },
+  home() { SES = null; go("home"); },
+  quit() { if (TEST) { TEST = null; UI.tset = null; UI.testSetup = false; render(); return; } if (SES && SES.answered) { SES.done = true; SES.cur = null; render(); } else { SES = null; render(); } },
+  "drill-tricky"() { startSession({ ids: allCards().filter(c => (st(c)?.l || 0) >= 2).sort((a, b) => st(b).l - st(a).l).slice(0, 10).map(c => c.id) }); },
+  "del-sample"() { delete S.units.example; delete S.prog.example; S.meta.seeded = true; invalidate(); store.mark("unit_example", "prog_example", "meta"); toast("Example removed"); render(); },
+  "toggle-theme"(el) { const k = el.dataset.k; UI.sel = UI.sel.includes(k) ? UI.sel.filter(x => x !== k) : [...UI.sel, k]; render(); },
+  "clear-themes"() { UI.sel = []; render(); },
+  "train-themes"() { startSession({ themes: UI.sel }); },
+  "test-setup"() { UI.tset = null; UI.testSetup = true; render(); window.scrollTo(0, 0); },
+  "test-cancel"() { UI.testSetup = false; UI.tset = null; render(); },
+  "tset-n"(el) { UI.tset.n = +el.dataset.n; render(); },
+  "test-start"() { UI.testSetup = false; startTest(); },
+  "t-next"() { testNext(); },
+  "w-next"() { const W = TEST.writing; W.given[TEST.wIdx] = $("#ans").value; if (TEST.wIdx + 1 < W.tasks.length) { TEST.wIdx++; render(); } else finishTest(); },
+  "train-mistakes"() { const ids = [...new Set(TEST.answers.filter(a => !isOk(a.r)).map(a => a.id))]; TEST = null; startSession({ ids }); },
+  "test-done"() { TEST = null; UI.tset = null; go("themes"); },
+  "train-unit"(el) { startSession({ unitId: el.dataset.id }); },
+  "ask-del"(el) { UI.confirmDel = el.dataset.id; render(); },
+  "cancel-del"() { UI.confirmDel = null; render(); },
+  "del-unit"(el) { const id = el.dataset.id; delete S.units[id]; delete S.prog[id]; invalidate(); store.mark("unit_" + id, "prog_" + id); UI.confirmDel = null; toast("Unit deleted"); go("library"); },
+  edit(el) { UI.editing = el.dataset.id; render(); $("#ed-es")?.focus(); },
+  "cancel-edit"() { UI.editing = null; render(); },
+  "save-edit"(el) {
+    const u = S.units[el.dataset.u], v = u?.vocab.find(x => x.id === el.dataset.id); if (!v) return;
+    v.es = $("#ed-es").value.trim() || v.es; v.meaning = $("#ed-mean").value.trim() || v.meaning;
+    v.alt = $("#ed-alt").value.split(";").map(s => s.trim()).filter(Boolean);
+    UI.editing = null; invalidate(); store.mark("unit_" + u.id); render();
+  },
+  "del-item"(el) { const u = S.units[el.dataset.u]; if (!u) return; u.vocab = u.vocab.filter(x => x.id !== el.dataset.id); if (S.prog[u.id]) delete S.prog[u.id]["v" + el.dataset.id]; UI.editing = null; invalidate(); store.mark("unit_" + u.id, "prog_" + u.id); render(); },
+  "more-ex"(el) { moreExercises(el.dataset.u, el.dataset.g, el); },
+  say(el) { TTS.say(el.dataset.t); },
+  "add-mode"(el) { addState().mode = el.dataset.m; render(); },
+  "pick-files"() { if (!AI.on) return; $("#file-input").click(); },
+  "rm-file"(el) { addState().files.splice(+el.dataset.i, 1); render(); },
+  process() { processAdd(); },
+  "stop-process"() { procCtl?.abort(); },
+  "dr-rm-v"(el) { addState().draft.vocab.splice(+el.dataset.i, 1); render(); },
+  "dr-rm-g"(el) { addState().draft.grammar.splice(+el.dataset.i, 1); render(); },
+  "dr-save"() { saveDraft(); },
+  "dr-discard"() { const A = addState(); A.draft = null; render(); },
+  // session
+  "intro-ok"() {
+    const q = SES.cur; q.intro = false;
+    if (q.card.kind === "gram") { (S.prog[q.card.uid] ||= {})["gi" + q.card.g.id] = { seen: 1 }; store.mark("prog_" + q.card.uid); }
+    render();
+  },
+  check() { const a = $("#ans"); if (a) submit(a.value); },
+  dunno() { submit("", "wrong"); },
+  pick(el) { const q = (TEST || SES).cur; submit(q.options[+el.dataset.i]); },
+  next() { nextQ(); render(); window.scrollTo(0, 0); },
+  explain() { explain(); },
+  override() {
+    const R = TEST || SES, q = R.cur, c = q.card; if (!q.fb || isOk(q.fb.r)) return;
+    if (TEST) { TEST.answers[TEST.answers.length - 1].r = "right"; q.fb = { r: "right", target: q.given }; }
+    else { learnUndo(q); learnApply(q, { r: "right", target: q.given }); }
+    // Remember this answer as accepted from now on.
+    if (c.kind === "vocab" && q.type !== "cloze") c.v.alt = [...new Set([...(c.v.alt || []), q.given.trim()])];
+    else if (c.kind === "gram") c.x.accept = [...new Set([...(c.x.accept || []), q.given.trim()])];
+    store.mark("unit_" + c.uid);
+    toast("Counted as right. That answer is accepted from now on.");
+    render();
+  },
+  ins(el) {
+    const a = $("#ans"); if (!a) return;
+    const s = a.selectionStart ?? a.value.length, e = a.selectionEnd ?? a.value.length;
+    a.value = a.value.slice(0, s) + el.dataset.ch + a.value.slice(e); a.focus(); a.setSelectionRange(s + 1, s + 1);
+  },
+};
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]"); if (!el || el.disabled) return;
+  const f = ACT[el.dataset.act]; if (!f) return;
+  e.preventDefault(); f(el, e);
+});
+document.addEventListener("pointerdown", e => { if (e.target.closest(".accents button")) e.preventDefault(); });
+document.addEventListener("keydown", e => {
+  const R = TEST || SES; if (!R || !R.cur) return;
+  const q = R.cur;
+  if (e.key === "Enter" && !e.shiftKey) {
+    if (q.fb) { e.preventDefault(); TEST ? testNext() : ACT.next(); }
+    else if (q.intro) { e.preventDefault(); ACT["intro-ok"](); }
+    else if (e.target.id === "ans") { e.preventDefault(); submit(e.target.value); }
+    return;
+  }
+  if (!q.fb && q.options && /^[1-4]$/.test(e.key) && e.target.tagName !== "INPUT") { const o = q.options[+e.key - 1]; if (o != null) submit(o); }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.input) addState()[t.dataset.input] = t.value;
+  if (t.dataset.dr) { const d = addState().draft; if (t.dataset.dr === "themes") d.themes = t.value.split(";").map(s => s.trim()).filter(Boolean); else d[t.dataset.dr] = t.value; }
+  if (t.dataset.dv) addState().draft.vocab[+t.dataset.dv][t.dataset.f] = t.value;
+});
+document.addEventListener("change", e => {
+  const t = e.target, k = t.dataset.change; if (!k) return;
+  const set = S.meta.settings;
+  if (k === "set-lang") set.lang = t.value;
+  if (k === "set-goal") set.goal = +t.value;
+  if (k === "set-audio") set.audio = t.checked;
+  if (k === "tset-studied") UI.tset.onlyStudied = t.checked;
+  if (k === "tset-writing") UI.tset.writing = t.checked;
+  if (k.startsWith("set-")) { store.mark("meta"); toast("Saved"); }
+});
+$("#file-input").addEventListener("change", e => { addFiles(e.target.files); e.target.value = ""; });
+window.addEventListener("hashchange", () => { UI.testSetup = false; route(); });
+
+/* ============================================================
+   Boot
+   ============================================================ */
+(async function boot() {
+  TTS.init();
+  await Promise.all([store.init(), AI.init()]);
+  if (!Object.keys(S.units).length && !S.meta.seeded) {
+    S.units.example = addIds(exampleUnit()); S.meta.seeded = true;
+    store.mark("unit_example", "meta");
+  }
+  invalidate();
+  route();
+})();
+</script>
